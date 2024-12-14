@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 3: Dynamics</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "The rate of change of linear momentum of a body is called a:",
+        answers: [
+            { text: "Linear force", correct: true },
+            { text: "Power", correct: false },
+            { text: "Impulse", correct: false },
+            { text: "Angular force", correct: false },
+        ]
+    },
+    {
+        question: "The term mass refers to the same physical concept as:",
+        answers: [
+            { text: "weight", correct: false },
+            { text: "inertia", correct: true },
+            { text: "force", correct: false },
+            { text: "acceleration", correct: false },
+        ]
+    },
+    {
+        question: "Which one of the following force is also called as self adjusting force?",
+        answers: [
+            { text: "frictional force", correct: true },
+            { text: "tension", correct: false },
+            { text: "weight", correct: false },
+            { text: "Thrust", correct: false },
+        ]
+    },
+    {
+        question: "The laws of motion shows the relationship between:",
+        answers: [
+            { text: "velocity and acceleration", correct: false },
+            { text: "mass and velocity", correct: false },
+            { text: "mass and acceleration", correct: false },
+            { text: "force and acceleration", correct: true },
+        ]
+    },
+    {
+        question: "The motion of rocket in the space is according to the law of conservation of:",
+        answers: [
+            { text: "Energy", correct: false },
+            { text: "linear momentum", correct: true },
+            { text: "mass", correct: false },
+            { text: "angular momentum", correct: false },
+        ]
+    },
+    {
+        question: "A bomb of mass 12 kg initially at rest explodes into two pieces of masses 4kg and 8kg. The speed of 8kg mass is 6 m/s. The kinetic energy The kinetic energy of 4 kg mass is:",
+        answers: [
+            { text: "32 J", correct: false },
+            { text: "48 J", correct: false },
+            { text: "114 J", correct: false },
+            { text: "288 J", correct: true },
+        ]
+    },
+    {
+        question: "If momentum is increased by 20% then K.E increases by:",
+        answers: [
+            { text: "44%", correct: true },
+            { text: "55%", correct: false },
+            { text: "66%", correct: false },
+            { text: "77%", correct: false },
+        ]
+    },
+    {
+        question: "The kinetic energy of body of mass 2kg and momentum of 2 Ns is:",
+        answers: [
+            { text: "1 J", correct: true },
+            { text: "2 J", correct: false },
+            { text: "3 J", correct: false },
+            { text: "4 J", correct: false },
+        ]
+    },
+    {
+        question: "For the same kinetic energy, the momentum is maximum for:",
+        answers: [
+            { text: "an electron", correct: false },
+            { text: "a proton", correct: false },
+            { text: "a deuteron", correct: false },
+            { text: "alpha particle", correct: true },
+        ]
+    },
+    {
+        question: "A 3kg bowling ball experiences a net force of 15N. What will be its acceleration.",
+        answers: [
+            { text: "35 m/s²", correct: false },
+            { text: "7 m/s²", correct: false },
+            { text: "5 m/s²", correct: true },
+            { text: "35 m/s²", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

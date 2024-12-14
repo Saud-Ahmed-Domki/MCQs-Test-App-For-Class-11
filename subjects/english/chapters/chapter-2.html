@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Prose 2: Once More to the Lake</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+    {
+        question: "The writer in the essay 'Once More to the Lake' is accompanied by his_______.",
+        answers: [
+            { text: "brother", correct: false },
+            { text: "son", correct: true },
+            { text: "wife", correct: false },
+            { text: "pet", correct: false },
+        ]
+    },
+    {
+        question: "In the beginning of 'Once More to the Lake', the writer characterizes himself as_______.",
+        answers: [
+            { text: "lake-water man", correct: false },
+            { text: "pond-water man", correct: false },
+            { text: "salt-water man", correct: false },
+            { text: "ordinary man", correct: true },
+        ]
+    },
+    {
+        question: "The writer has referred the word \"placidity\" in the context of_______.",
+        answers: [
+            { text: "peacefulness", correct: false },
+            { text: "calmness", correct: true },
+            { text: "loneliness", correct: false },
+            { text: "idleness", correct: false },
+        ]
+    },
+    {
+        question: "The ________ were/was tapping on the roof of the camp of writer.",
+        answers: [
+            { text: "mosquitoes", correct:  false},
+            { text: "swam", correct: false },
+            { text: "squirrel", correct: true },
+            { text: "mouse", correct: false },
+        ]
+    },
+    {
+        question: "The writer felt in the end of the essay_______.",
+        answers: [
+            { text: "the fear of storm", correct: false },
+            { text: "the danger of life", correct: false },
+            { text: "happy", correct: false },
+            { text: "the loneliness", correct: true },
+        ]
+    },
+    {
+        question: "________ caught two fish before lunch.",
+        answers: [
+            { text: "son", correct: false },
+            { text: "father", correct: false },
+            { text: "both son & father", correct: true },
+            { text: "spinner", correct: false },
+        ]
+    },
+    {
+        question: "The writer revisited the lake with his son in ________ season.",
+        answers: [
+            { text: "summer", correct: true },
+            { text: "winter", correct: false },
+            { text: "autumn", correct: false },
+            { text: "spring", correct: false },
+        ]
+    },
+    {
+        question: "The writer's son has seen ________ while travelling by train.",
+        answers: [
+            { text: "weeds", correct: false },
+            { text: "lily pads", correct: true },
+            { text: "sheltered bay", correct:  false},
+            { text: "wet woods", correct: false },
+        ]
+    },
+    {
+        question: "The writer used to visit lake_______.",
+        answers: [
+            { text: "in New York", correct: false },
+            { text: "near his farm house", correct:  false},
+            { text: "in Maine", correct: true },
+            { text: "to go to school", correct: false },
+        ]
+    },
+    {
+        question: "For ________, the writer used to go to the lake.",
+        answers: [
+            { text: "fishing", correct: true },
+            { text: "seeing waves", correct: false },
+            { text: "enjoying cool water", correct: false },
+            { text: "enjoying swimming", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Seerat un Nabi</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+    {
+        question: "The Holy prophet (PBUH) was born in................",
+        answers: [
+            { text: "12 Rabi-ul-Awal, 1 year of Elephant", correct: true },
+            { text: "10 Rabi-ul-Awal, 1 year of Elephant", correct: false },
+            { text: "8 Rabi-ul-Awal, 1 year of Elephant", correct: false },
+            { text: "15 Rabi-ul-Awal, 1 year of Elephant", correct: false },
+        ]
+    },
+    {
+        question: "Holy prophet was born in which year?",
+        answers: [
+            { text: "571 AD", correct: true },
+            { text: "572 AD", correct: false },
+            { text: "573 AD", correct: false },
+            { text: "574 AD", correct: false },
+        ]
+    },
+    {
+        question: "Hazrat Abdullah was his father and who was his mother.",
+        answers: [
+            { text: "Bibi Sobia", correct: false },
+            { text: "Bibi Haleema", correct: false },
+            { text: "Bibi Aammna", correct: true },
+            { text: "Bibi Sadia", correct: false },
+        ]
+    },
+    {
+        question: "\"Muhammad\" (PBUH) name was given to him by his............",
+        answers: [
+            { text: "Nurse Bibi Haleema", correct: false },
+            { text: "Grand Father (Abdul Muttalib)", correct: true },
+            { text: "Mother (Aamna)", correct: false },
+            { text: "Uncle (Abu Talib)", correct: false },
+        ]
+    },
+    {
+        question: "The holy prophet (PBUH) belongs to the",
+        answers: [
+            { text: "Bahu Hashim", correct: true },
+            { text: "Banu Zuhra", correct: false },
+            { text: "Banu Asad", correct: false },
+            { text: "Banu Ummuyu", correct: false },
+        ]
+    },
+    {
+        question: "What is meaning of the name \"Muhammad\"?",
+        answers: [
+            { text: "Honest", correct: false },
+            { text: "Truthful", correct: false },
+            { text: "Literate", correct: false },
+            { text: "Praised one", correct: true },
+        ]
+    },
+    {
+        question: "Name the grand father of the holy prophet (PBUH)",
+        answers: [
+            { text: "Abu Talib", correct: false },
+            { text: "Abdul Muttalib", correct: true },
+            { text: "Abdullah", correct: false },
+            { text: "Abass", correct: false },
+        ]
+    },
+    {
+        question: "Where the holy prophet (PBUH) was born",
+        answers: [
+            { text: "Madina", correct: false },
+            { text: "Basra", correct: false },
+            { text: "Makkah", correct: true },
+            { text: "Taif", correct: false },
+        ]
+    },
+    {
+        question: "What is the real name of Hazrat Abdul Muttalib?",
+        answers: [
+        { text: "Abdul Kalam", correct: false },
+            { text: "Turab", correct: false },
+            { text: "Salah", correct: false },
+            { text: "Sheba", correct: true },
+           
+        ]
+    },
+    {
+        question: "Name the nursing mother of the holy prophet (PBUH)?",
+        answers: [
+            { text: "Hazrat Haleema", correct: true },
+            { text: "Hazrat Sheema", correct: false },
+            { text: "Hazrat Sobia", correct: false },
+            { text: "Umme Aiman", correct: false },
+         
+        ]
+    },
+    {
+        question: "How old was the prophet (PBUH), when his mother die",
+        answers: [
+            { text: "4 years", correct: false },
+            { text: "5 years", correct: false },
+            { text: "7 years", correct: false },
+            { text: "6 years", correct: true },
+        ]
+    },
+    {
+        question: "What work did the holy prophet do in his childhood?",
+        answers: [
+            { text: "Carpentry", correct: false },
+            { text: "Schooling", correct: false },
+            { text: "Selling", correct: false },
+            { text: "Grazing Goats", correct: true },
+        ]
+    },
+    {
+        question: "Name the first wife of the holy prophet (PBUH)?",
+        answers: [
+            { text: "Hazrat Khadija (RA)", correct: true },
+            { text: "Hazrat Soda (RA)", correct: false },
+            { text: "Hazrat Aisha (RA)", correct: false },
+            { text: "Hazrat Zainab (RA)", correct: false },
+        ]
+    },
+    {
+        question: "The age of the Holy Prophet (PBUH) when he married Hazrat Khadija (RA) Was",
+        answers: [
+            { text: "40 years", correct: false },
+            { text: "35 years", correct: false },
+            { text: "30 years", correct: false },
+            { text: "25 years", correct: true },
+        ]
+    },
+    {
+        question: "Who recited Nikah of the holy prophet (PBUH) and Hazrat Khadija?",
+        answers: [
+            { text: "Hazrat Abu Bakr (RA)", correct: false },
+            { text: "Hazrat Abu Talib (RA)", correct: true },
+            { text: "Hazrat Usman (HA)", correct: false },
+            { text: "Hazrat Abdul Muttalib (BA)", correct: false },
+        ]
+    },
+    {
+        question: "The age of the Holy Prophet (PBUH), when he got the status of prophethood was",
+        answers: [
+            { text: "40 years", correct: true },
+            { text: "45 years", correct: false },
+            { text: "30 years", correct: false },
+            { text: "35 years", correct: false },
+        ]
+    },
+    {
+        question: "The first Wahi revealed to the holy prophet (PBUH) at",
+        answers: [
+            { text: "Cave Sor", correct: false },
+            { text: "Cave Hire", correct: true },
+            { text: "Cave Makka", correct: false },
+            { text: "Cave Noor", correct: false },
+        ]
+    },
+    {
+        question: "What is the Kuniyat of the holy prophet (PBUH)?",
+        answers: [
+        { text: "Abu Hashim", correct: false },
+        { text: "Abu Qasim", correct: true },
+        { text: "Abu Ibrahim", correct: false },
+        { text: "Abu Abdullah", correct: false },
+        ]
+    },
+    {
+        question: "The holy prophet (PBUH) demised at the age of",
+        answers: [
+            { text: "61 years", correct: false },
+            { text: "63 years", correct: true },
+            { text: "64 years", correct: false },
+            { text: "65 years", correct: false },
+        ]
+    },
+    {
+        question: "For how long the holy prophet (PBUH) did stay in the ravine of Sha'ab Abi Talib?",
+        answers: [
+            { text: "Six month", correct: false },
+            { text: "One year", correct: false },
+            { text: "Two years", correct: false },
+            { text: "Three year", correct: true },
+        ]
+    },
+    {
+        question: "Who was left on the bed of the holy prophet (PBUH), when he was leaving Makkah for Madina?",
+        answers: [
+            { text: "Hazrat Ali (RA)", correct: true },
+            { text: "Hazrat Usman (RA)", correct: false },
+            { text: "Hazrat Umar (RA)", correct: false },
+            { text: "No one", correct: false },
+        ]
+    },
+    {
+        question: "First Islamic state was established in",
+        answers: [
+            { text: "Mecca", correct: false },
+            { text: "Madina", correct: true },
+            { text: "Quba", correct: false },
+            { text: "Uhad", correct: false },
+        ]
+    },
+    {
+        question: "The Holy prophet (PBUH) took part in how many battles.",
+        answers: [
+            { text: "26", correct: false },
+            { text: "23", correct: false },
+            { text: "28", correct: false },
+            { text: "32", correct: true },
+        ]
+    },
+    {
+        question: "Prophet (SAW) were resolved all matters in.",
+        answers: [
+            { text: "Masjid Al Haram", correct: false },
+            { text: "Masjid Nabawi", correct: true },
+            { text: "Arafat", correct: false },
+            { text: "Quba", correct: false },
+        ]
+    },
+    {
+        question: "Meaning of Sabr (صبر) is to",
+        answers: [
+            { text: "Control", correct: false },
+            { text: "stay", correct: true },
+            { text: "fear", correct: false },
+            { text: "Pray", correct: false },
+        ]
+    },
+    {
+        question: "Patience is the habit of",
+        answers: [
+            { text: "Sadiqeen", correct: false },
+            { text: "Children", correct: false },
+            { text: "Elders", correct: false },
+            { text: "Prophets", correct: true },
+        ]
+    },
+    {
+        question: "The Prophet who is famous in patience is Hazrat",
+        answers: [
+            { text: "Yusuf (AS)", correct: false },
+            { text: "Ayub (AS)", correct: true },
+            { text: "Moosa(AS)", correct: false },
+            { text: "Isa(AS)", correct: false },
+        ]
+    },
+    {
+        question: "Meaning of Afw is",
+        answers: [
+            { text: "forgive", correct: true },
+            { text: "Remember", correct: false },
+            { text: "Forget", correct: false },
+            { text: "Benevolence", correct: false },
+        ]
+    },
+    {
+        question: "The people of ............. had wounded and caused suffering to the Prophet (SAW).",
+        answers: [
+            { text: "Yathrib", correct: false },
+            { text: "Khyber", correct: false },
+            { text: "Ta'if", correct: true },
+            { text: "Najd", correct: false },
+        ]
+    },
+    {
+        question: "Meaning of Adl (عدل) is",
+        answers: [
+            { text: "Equality", correct: false },
+            { text: "Moderation", correct: false },
+            { text: "To divide in two parts", correct: true },
+            { text: "Sacrifice", correct: false },
+        ]
+    },
+    {
+        question: "Another word used in Qur'an for Adl is",
+        answers: [
+            { text: "Mizan", correct: false },
+            { text: "Wasat", correct: false },
+            { text: "Qist", correct: true },
+            { text: "Mikyal", correct: false },
+        ]
+    },
+    {
+        question: "According to the Qur'an Adl is close to",
+        answers: [
+            { text: "Piety", correct: true },
+            { text: "Truth", correct: false },
+            { text: "Patience", correct: false },
+            { text: "Generosity", correct: false },
+        ]
+    },
+    {
+        question: "Akhawat (أخوات) meaning is",
+        answers: [
+            { text: "Sympathy", correct: false },
+            { text: "Relative", correct: false },
+            { text: "Brotherhood", correct: true },
+            { text: "Friends", correct: false },
+        ]
+    },
+    {
+        question: "According Surah Al Hujrat all Momin are ...... for one another",
+        answers: [
+            { text: "Friends", correct: false },
+            { text: "Anemy", correct: false },
+            { text: "Helpful", correct: false },
+            { text: "Brother", correct: true },
+        ]
+    },
+    {
+        question: "Islamic brotherhood could be establish by",
+        answers: [
+            { text: "Wealth", correct: false },
+            { text: "Generosity", correct: false },
+            { text: "Love", correct: false },
+            { text: "Unity", correct: true },
+        ]
+    },
+    {
+        question: "According to the Prophet(SAW) “The best among you who are best with their.....”",
+        answers: [
+            { text: "Relative", correct: false },
+            { text: "Family", correct: true },
+            { text: "friends", correct: false },
+            { text: "Neighbour", correct: false },
+        ]
+    },
+    {
+        question: "\"And hold fast the .......... Of Allah and do not divide.",
+        answers: [
+            { text: "Sunnah", correct: false },
+            { text: "Rope", correct: true },
+            { text: "Fiqh", correct: false },
+            { text: "Prophet", correct: false },
+        ]
+    },
+    {
+        question: "\"And hold fast the Rope Of Allah and do not divide. The Rope mean",
+        answers: [
+            { text: "Sunnah", correct: false },
+            { text: "Qur'an", correct: true },
+            { text: "Fiqh", correct: false },
+            { text: "Prophet", correct: false },
+        ]
+    },
+    {
+        question: "The base of Islamic Unity is",
+        answers: [
+            { text: "Qur'an and Tafseer", correct: false },
+            { text: "Fiqh", correct: false },
+            { text: "Qur'an and Sunnah", correct: true },
+            { text: "Hadith", correct: false },
+        ]
+    }
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

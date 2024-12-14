@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 11: Thermochemistry</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+const questions = [
+    {
+        question: "Least entropy found in which of the following state of water:",
+        answers: [
+            { text: "Liquid water at 4°C", correct: false },
+            { text: "Liquid water at 25°C", correct: false },
+            { text: "Steam at 100°C", correct: false },
+            { text: "Ice at 0°C", correct: true },
+        ]
+    },
+    {
+        question: `The energy corresponds to the given thermochemical process is labeled as:
+        Li+(g) + Cl-(g) → LiCl(s)
+        `,
+        answers: [
+            { text: "Ionization energy", correct: false },
+            { text: "Lattice energy", correct: true },
+            { text: "Enthalpy of combustion", correct: false },
+            { text: "Enthalpy of atomization", correct: false },
+        ]
+    },
+    {
+        question: "Which of the following change is not an endothermic reaction:",
+        answers: [
+            { text: "Decomposition of lime", correct: false },
+            { text: "Cracking of alkanes", correct: false },
+            { text: "Combustion of butane", correct: true },
+            { text: "Photosynthesis", correct: false },
+        ]
+    },
+    {
+        question: "Heat transfer can not be feasible across the boundary of a:",
+        answers: [
+            { text: "Open system", correct: false },
+            { text: "Close system", correct: false },
+            { text: "Isolated system", correct: true },
+            { text: "Thermo permeable system", correct: false },
+        ]
+    },
+    {
+        question: "Which of the following enthalpy change is always negative:",
+        answers: [
+            { text: "Enthalpy of formation", correct: false },
+            { text: "Enthalpy of decomposition", correct: false },
+            { text: "Enthalpy of combustion", correct: true },
+            { text: "Enthalpy of reaction", correct: false },
+        ]
+    },
+    {
+        question: "Standard enthalpy of formation of all of the following elements at 25°C and 1 atm pressure are zero except:",
+        answers: [
+            { text: "C(diamond)", correct: true },
+            { text: "C(graphite)", correct: false },
+            { text: "O2", correct: false },
+            { text: "N2", correct: false },
+        ]
+    },
+    {
+        question: "In the equation of First law of thermodynamics (ΔE = q + w), the property(s) which depends upon initial and final state is (are):",
+        answers: [
+            { text: "ΔE", correct: true },
+            { text: "q", correct: false },
+            { text: "w", correct: false },
+            { text: "Both q and w", correct: false },
+        ]
+    },
+    {
+        question: "Which statement is incorrect:",
+        answers: [
+            { text: "For constant pressure process, ΔH = ΔE + PΔV", correct: false },
+            { text: "For constant volume process, ΔE = q", correct: false },
+            { text: "For exothermic reactions, ΔH > 0", correct: true },
+            { text: "For Hess law ΣΔH(cycle) = 0", correct: false },
+        ]
+    }, 
+    {
+        question: "In a thermochemical process, no work is done if the system is kept at:",
+        answers: [
+            { text: "Constant temperature", correct: false },
+            { text: "Constant pressure", correct: false },
+            { text: "Constant volume", correct: true },
+            { text: "Constant mass", correct: false },
+        ]
+    },
+    {
+        question: "Volume is a:",
+        answers: [
+            { text: "State function", correct: true },
+            { text: "Path function", correct: false },
+            { text: "Intensive properties", correct: false },
+            { text: "Colligative properties", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

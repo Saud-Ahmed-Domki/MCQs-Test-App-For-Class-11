@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 6: Fluid Statics</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "A completely submerged object always displaces its own____________.",
+        answers: [
+            { text: "weight of fluid", correct: false },
+            { text: "volume of fluid", correct: true },
+            { text: "density of fluid", correct: false },
+            { text: "area of fluid", correct: false },
+        ]
+    },
+    {
+        question: "The pressure exerted on the ground by a man is greatest when:",
+        answers: [
+            { text: "he stands with both feet flat on the ground", correct: false },
+            { text: "he stands flat on one foot", correct: false },
+            { text: "he stands on the toes of one foot", correct: true },
+            { text: "he lies down on the ground", correct: false },
+        ]
+    },
+    {
+        question: "In a stationary homogeneous liquid:",
+        answers: [
+            { text: "pressure is the same at all points", correct: false },
+            { text: "pressure depends on the direction", correct: false },
+            { text: "pressure is independent of any atmospheric pressure on the upper surface of the liquid", correct: false },
+            { text: "pressure is the same at all points at the same level", correct: true },
+        ]
+    },
+    {
+        question: "One piston in a hydraulic lift has an area that is twice the area of the other. When the pressure at the smaller piston is increased by Δp, the pressure at the larger piston:",
+        answers: [
+            { text: "increases by 2Δp", correct: false },
+            { text: "increases by Δp/2", correct: false },
+            { text: "increases by Δp", correct: true },
+            { text: "increases by 4Δp", correct: false },
+        ]
+    },
+    {
+        question: "In a vacuum, an object has",
+        answers: [
+            { text: "No buoyant force", correct: true },
+            { text: "no mass", correct: false },
+            { text: "no weight", correct: false },
+            { text: "none of these", correct: false },
+        ]
+    },
+    {
+        question: "The pressure at the bottom of a pond does NOT depend on",
+        answers: [
+            { text: "Water density", correct: false },
+            { text: "the depth of the pond", correct: false },
+            { text: "the surface area of the pond", correct: true },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "A rock suspended by a weighing scale weighs 5N out of water and 3 N when submerged in water. What is the buoyant force on the rock?",
+        answers: [
+            { text: "3 N", correct: true },
+            { text: "5 N", correct: false },
+            { text: "8 N", correct: false },
+            { text: "15 N", correct: false },
+        ]
+    },
+    {
+        question: "\"An object completely submerged in a fluid displaces its own volume of fluid.\" This is:",
+        answers: [
+            { text: "Pascal's paradox", correct: false },
+            { text: "Archimedes' principle", correct: true },
+            { text: "Pascal's principle", correct: false },
+            { text: "true, but none of the above", correct: false },
+        ]
+    },
+    {
+        question: "Salt water has greater density than freshwater. A boat floats in both freshwater and saltwater. The buoyant force on the boat in saltwater is _____ that in freshwater.",
+        answers: [
+            { text: "equal to", correct: false },
+            { text: "smaller than", correct: false },
+            { text: "larger than", correct: true },
+            { text: "same as", correct: false },
+        ]
+    },
+    {
+        question: "You fill a tall glass with ice and then add water to the level of the glass's rim, so some fraction of the ice floats above the rim. When the ice melts, what happens to the water level?",
+        answers: [
+            { text: "the water overflows the rim", correct: false },
+            { text: "the water level drops below the rim", correct: false },
+            { text: "the water level stays at the rim", correct: true },
+            { text: "it depends on the difference in density between water and ice", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

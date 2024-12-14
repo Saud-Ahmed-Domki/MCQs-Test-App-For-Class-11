@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 4: State of Matter: Gas</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+  {
+    question: "According to Graham’s Law of diffusion, the ratio of diffusion of H₂ and O₂ are respectively:",
+    answers: [
+      { text: "1:2", correct: false },
+      { text: "2:1", correct: false },
+      { text: "1:4", correct: false },
+      { text: "4:1", correct: true },
+    ],
+  },
+  {
+    question: "Collection of gas over water is an example of:",
+    answers: [
+      { text: "Graham’s law", correct: false },
+      { text: "Dalton’s law", correct: true },
+      { text: "Avogadro’s law", correct: false },
+      { text: "Gay-Lussac law", correct: false },
+    ],
+  },
+  {
+    question: "The molar volume of oxygen gas is maximum at:",
+    answers: [
+      { text: "0°C and 1 atm", correct: false },
+      { text: "0°C and 2 atm", correct: false },
+      { text: "25°C and 1 atm", correct: true },
+      { text: "25°C and 2 atm", correct: false },
+    ],
+  },
+  {
+    question: "The diffusion rate of C₃H₈ and CO₂ are same because:",
+    answers: [
+      { text: "Both are poly atomic gases", correct: false },
+      { text: "Both are denser than air", correct: false },
+      { text: "Both have the same molar mass", correct: true },
+      { text: "Both contains carbon atoms", correct: false },
+    ],
+  },
+  {
+    question: "The volume of gas would be theoretically zero at:",
+    answers: [
+      { text: "0°C", correct: false },
+      { text: "0 K", correct: true },
+      { text: "273 K", correct: false },
+      { text: "273°C", correct: false }, 
+    ],
+  },
+  {
+    question: "Real gas reaches the ideal behavior at:",
+    answers: [
+      { text: "Low temperature and low pressure", correct: false },
+      { text: "High temperature and high pressure", correct: false },
+      { text: "Low temperature and high pressure", correct: false },
+      { text: "High temperature and low pressure", correct: true },
+    ],
+  },
+  {
+    question: "Which one of the following statements is incorrect about the gas molecules?",
+    answers: [
+      { text: "They have large spaces", correct: false },
+      { text: "They possess kinetic energy", correct: false },
+      { text: "Their collision is elastic", correct: false },
+      { text: "Their molar mass depends upon temperature", correct: true },
+    ],
+  },
+  {
+    question: "If the Kelvin temperature of ideal gas is increased to double and pressure is reduced to one half, the volume of gas:",
+    answers: [
+      { text: "will remain same", correct: false },
+      { text: "will be double", correct: false },
+      { text: "will be reduced to half", correct: false },
+      { text: "will be four times", correct: true },
+    ],
+  },
+  {
+    question: "The molar volume of oxygen gas is 22.4 dm³ at:",
+    answers: [
+      { text: "0°C and 1 atm", correct: true },
+      { text: "25°C and 0.5 atm", correct: false },
+      { text: "0 K and 1 atm", correct: false },
+      { text: "25 K and 0.5 atm", correct: false },
+    ],
+  },
+  {
+    question: "Under similar conditions CH₄ gas diffuses ______ times faster than SO₂ gas:",
+    answers: [
+      { text: "1.5 times", correct: false },
+      { text: "2 times", correct: false },
+      { text: "4 times", correct: true },
+      { text: "16 times", correct: false },
+    ],
+  },
+];
+
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Tauheed</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+    { 
+        question: "Who created man and the Universe?",
+        answers: [
+            { text: "Almighty Allah", correct: true },
+            { text: "It was the matter of Chance", correct: false },
+            { text: "Geologists", correct: false },
+            { text: "Metaphysists", correct: false },
+        ]
+    },
+    {
+        question: "What is the duty of man to Allah?",
+        answers: [
+            { text: "To believe Him", correct: false },
+            { text: "To Submit Him Completely", correct: false },
+            { text: "To obey His all Commandments", correct: false },
+            { text: "All of them", correct: true },
+        ]
+    },
+    {
+        question: "What is the meaning of the word Allah?",
+        answers: [
+            { text: "Only being worth worship", correct: true },
+            { text: "Only being to obey", correct: false },
+            { text: "Only being to love", correct: false },
+            { text: "Only being to submit", correct: false },
+        ]
+    },
+    {
+        question: "Tauheed means...",
+        answers: [
+            { text: "Atheism", correct: false },
+            { text: "Monotheism", correct: true },
+            { text: "Polytheism", correct: false },
+            { text: "Nihilism", correct: false },
+        ]
+    },
+    {
+        question: "The word Tauheed stands for...",
+        answers: [
+            { text: "Ahad", correct: false },
+            { text: "Wahid", correct: false },
+            { text: "Wahadaniat", correct: false },
+            { text: "All of these", correct: true },
+        ]
+    },
+    {
+        question: "As regard to belief of Tauheed, it means........",
+        answers: [
+            { text: "Belief in the Oneness of Allah", correct: false },
+            { text: "Omnipresent", correct: false },
+            { text: "Omniscients", correct: true },
+            { text: "All Knowing", correct: false },
+        ]
+    },
+    {
+        question: "Tauheed is the _____ Fundamental Belief of Islam.",
+        answers: [
+            { text: "First", correct: true },
+            { text: "Second", correct: false },
+            { text: "Third", correct: false },
+            { text: "Fourth", correct: false },
+        ]
+    },
+    {
+        question: "Which surah of the holy Quran describes pure Oneness of Allah?",
+        answers: [
+            { text: "Surah Nas", correct: false },
+            { text: "Al-Fatiha", correct: false },
+            { text: "Surah Ikhlas", correct: true },
+            { text: "Al-Baqra", correct: false },
+        ]
+    },
+    {
+        question: "Who has neither a beginning nor an end?",
+        answers: [
+            { text: "Allah", correct: true },
+            { text: "Angels", correct: false },
+            { text: "Supernaturals", correct: false },
+            { text: "Menkind", correct: false },
+        ]
+    },
+    {
+        question: "Allah's Divine nature is entirely",
+        answers: [
+            { text: "Simple", correct: false },
+            { text: "Unique", correct: true },
+            { text: "Clear", correct: false },
+            { text: "Hard", correct: false },
+        ]
+    },
+    {
+        question: "Where in the Holy Quran, \"Deen Islam is completed and is religion of the believers\"?",
+        answers: [
+            { text: "Surah Maida", correct: true },
+            { text: "Surah Fatiha", correct: false },
+            { text: "Surah Ikhlas", correct: false },
+            { text: "Suhar Nas", correct: false },
+        ]
+    },
+    {
+        question: "Which word is opposite of Tauheed?",
+        answers: [
+            { text: "Kufr", correct: false },
+            { text: "Shirk", correct: true },
+            { text: "Faithful", correct: false },
+            { text: "Katir", correct: false },
+        ]
+    },
+    {
+        question: "Associating partner with Allah is called........",
+        answers: [
+            { text: "A true Muslim", correct: false },
+            { text: "Mushrik", correct: true },
+            { text: "Faithful", correct: false },
+            { text: "Kafir", correct: false },
+        ]
+    },
+    {
+        question: "Name the religion which is deadly opposite to all sorts of polytheism?",
+        answers: [
+            { text: "Islam", correct: true },
+            { text: "All Religions", correct: false },
+            { text: "No Religion", correct: false },
+            { text: "Most of Religions", correct: false },
+        ]
+    },
+    {
+        question: "What is the concept of Tauheed in Islam?",
+        answers: [
+            { text: "Allah is one, None is equal to Him", correct: false },
+            { text: "He is creater of All things, none share His Authority", correct: false },
+            { text: "He is omnipresent, Omniscient and Eternai", correct: false },
+            { text: "All of these", correct: true },
+        ]
+    },
+    {
+        question: "All prophet of Allah emphasised upon...",
+        answers: [
+            { text: "Tauheed", correct: true },
+            { text: "Ibadat", correct: false },
+            { text: "Sacrifice", correct: false },
+            { text: "Fasting", correct: false },
+        ]
+    },
+    {
+        question: "What do you mean by Atheism?",
+        answers: [
+            { text: "To believe oneness of Allah", correct: false },
+            { text: "Do not believe in the existence of Allah", correct: true },
+            { text: "To believe in duality of Allah", correct: false },
+            { text: "None of these.", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

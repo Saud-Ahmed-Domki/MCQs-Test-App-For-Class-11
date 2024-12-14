@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Unit 2: Matrices and Determinants</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script"></script>
+  <script>
+ const questions = [
+  {
+    question: "If a matrix \\(A\\) has \\(m\\) rows and \\(n\\) columns, then the order of \\(A\\) is:",
+    answers: [
+      { text: "\\(m × n\\)", correct: true },
+      { text: "\\(n × m\\)", correct: false },
+      { text: "\\(mn\\)", correct: false },
+      { text: "\\(m^n\\)", correct: false },
+    ],
+  },
+  {
+    question: "Any matrix of order \\(m × 1\\) is called:",
+    answers: [
+      { text: "Row matrix", correct: false },
+      { text: "Column matrix", correct: true },
+      { text: "Square matrix", correct: false },
+      { text: "Zero matrix", correct: false },
+    ],
+  },
+  {
+    question: "For the square matrix \\(A\\) = \\([aᵢⱼ]\\). If all \\(aᵢⱼ = 0, i ≠ j\\) and all \\(aᵢᵢ = k\\) (non-zero) for \\(i = j\\), then \\(A\\) is called:",
+    answers: [
+      { text: "Diagonal matrix", correct: false },
+      { text: "Scalar matrix", correct: true },
+      { text: "Identity matrix", correct: false },
+      { text: "Null matrix", correct: false },
+    ],
+  },
+  {
+    question: "The matrix [7] is:",
+    answers: [
+      { text: "Square matrix", correct: false },
+      { text: "Row matrix", correct: false },
+      { text: "Column matrix", correct: false },
+      { text: "All of these", correct: true },
+    ],
+  },
+  {
+    question: "\\(k(ABC)ᵀ\\) =",
+    answers: [
+      { text: "\\(kAᵀBᵀCᵀ\\)", correct: false },
+      { text: "\\(kCᵀBᵀAᵀ\\)", correct: true },
+      { text: "\\(\\frac{1}{kAᵀBᵀCᵀ}\\)", correct: false },
+      { text: "\\(\\frac{1}{kCᵀBᵀAᵀ}\\)", correct: false },
+    ],
+  },
+  {
+    question: `\\[
+\\begin{vmatrix} 1 & 0 \\\\ 5 & 6 \\end{vmatrix} - \\begin{vmatrix} 1 & 2 \\\\ 3 & 4 \\end{vmatrix} = ?
+\\]`,
+    answers: [
+      { text: "4", correct: false },
+      { text: "8", correct: true },
+      { text: "-2", correct: false },
+      { text: "10", correct: false },
+    ],
+  },
+  {
+    question: "If \\(AB\\) = \\(BA\\), then which one is true, where \\(A\\) and \\(B\\) are square matrices?",
+    answers: [
+      { text: "\\(A\\) and \\(B\\) are multiplicative inverses of each other", correct: false },
+      { text: "One of \\(A\\) or \\(B\\) is null matrix", correct: false },
+      { text: "One of \\(A\\) or \\(B\\) is identity matrix", correct: false },
+      { text: "All of these", correct: true },
+    ],
+  },
+  {
+    question: "If \\(A\\) = [-7], then \\(|A|\\) = ",
+    answers: [
+      { text: "7", correct: false },
+      { text: "-7", correct: true },
+      { text: "0", correct: false },
+      { text: "Not possible", correct: false },
+    ],
+  },
+  {
+    question: "Let \\(A\\) = \\([aᵢⱼ]\\) be a square matrix. Then cofactor of \\(aᵢⱼ\\) is equal to:",
+    answers: [
+      { text: "\\(Mᵢⱼ\\)", correct: false },
+      { text: "\\((-1)^{i+j}Mᵢⱼ\\)", correct: true },
+      { text: "\\((-1)^{ij}Mᵢⱼ\\)", correct: false },
+      { text: "\\((-1)^{i+j}aᵢⱼ\\)", correct: false },
+    ],
+  },
+  {
+    question: "For any triangular matrix \\(A\\), \\(|A|\\) is equal to:",
+    answers: [
+      { text: "Product of leading diagonal elements", correct: true },
+      { text: "Sum of leading diagonal elements", correct: false },
+      { text: "Sum of square of diagonal elements", correct: false },
+      { text: "All of these", correct: false },
+    ],
+  },
+  {
+    question: "A square matrix \\(A\\) = \\([aᵢⱼ]\\) for which all \\(aᵢⱼ = 0, i < j\\), then \\(A\\) is called:",
+    answers: [
+      { text: "Upper triangular", correct: false },
+      { text: "Lower triangular", correct: true },
+      { text: "Symmetric", correct: false },
+      { text: "Hermitian", correct: false },
+    ],
+  },
+  {
+    question: "A triangular matrix is always a:",
+    answers: [ 
+      { text: "Diagonal matrix", correct: false },
+      { text: "Scalar matrix", correct: false },
+      { text: "Square matrix", correct: true },
+      { text: "All of these", correct: false },
+    ],
+  },
+  {
+    question: "A square matrix \\(A\\) is skew symmetric if:",
+    answers: [
+      { text: "\\(Aᵀ\\) = \\(A\\)", correct: false },
+      { text: "\\(Aᵀ\\) = \\(-A\\)", correct: true },
+      { text: "\\((Ā)ᵀ\\) = \\(A\\)", correct: false },
+      { text: "None", correct: false },
+    ],
+  },
+  {
+    question: "A square matrix \\(A\\) is Hermitian matrix if:",
+    answers: [
+      { text: "\\(Aᵀ\\) = \\(A\\)", correct: false },
+      { text: "\\(Aᵀ\\) = \\(-A\\)", correct: false },
+      { text: "\\((Ā)ᵀ\\) = \\(A\\)", correct: true },
+      { text: "\\((Ā)ᵀ\\) = \\(-A\\)", correct: false },
+    ],
+  },
+  {
+    question: "In skew-Hermitian matrix, elements of the main diagonal are _____________ numbers.",
+    answers: [
+      { text: "Purely real", correct: false },
+      { text: "Complex", correct: false },
+      { text: "Either zero or purely imaginary", correct: true },
+      { text: "None", correct: false },
+    ],
+  },
+  {
+    question: `\\[If
+\\begin{bmatrix} a & b \\\\ 0 & 7 \\end{bmatrix} = \\begin{bmatrix} 2 & 3 \\\\ 1 & -9 \\end{bmatrix} then
+\\]`,
+    answers: [
+      { text: "\\(a\\) = -3", correct: true },
+      { text: "\\(a\\) = \\(b\\)", correct: false },
+      { text: "\\(a\\) = \\(\\frac{1}{3}\\)", correct: false },
+      { text: "\\(a\\) = \\(-\\frac{1}{3}\\)", correct: false },
+    ],
+  },
+  {
+    question: "The number of non-zero rows in echelon form of a matrix is called:",
+    answers: [
+      { text: "Order of a matrix", correct: false },
+      { text: "Rank of a matrix", correct: true },
+      { text: "Leading Column", correct: false },
+      { text: "Leading Row", correct: false },
+    ],
+  },
+  {
+    question: "If A is any square matrix and \\(A\\) = \\(-Aᵀ\\), then \\(A\\) is a:",
+    answers: [
+      { text: "Symmetric matrix", correct: false },
+      { text: "Skew symmetric matrix", correct: true },
+      { text: "Hermitian matrix", correct: false },
+      { text: "Skew Hermitian matrix", correct: false },
+    ],
+  },
+  {
+    question: "If \\(A\\) is an idempotent matrix, then:",
+    answers: [
+      { text: "\\(A²\\) = \\(I\\)", correct: false },
+      { text: "\\(A²\\) = \\(0\\)", correct: false },
+      { text: "\\(A²\\) = \\(A\\)", correct: true },
+      { text: "\\(A²\\) = \\(A\\)ᵀ", correct: false },
+    ],
+  },
+  {
+    question: `The cofactor \\(A₂₂\\) of\\[
+\\begin{bmatrix} 1 & 2 & 4 \\\\ -1 & 2 & 5\\\\ 0 & 1 & -1 \\end{bmatrix}\\] is:`,
+    answers: [
+      { text: "0", correct: false },
+      { text: "-1", correct: true },
+      { text: "1", correct: false },
+      { text: "2", correct: false },
+    ],
+  },
+
+];
+
+
+const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+    MathJax.typesetPromise();
+  }
+
+  function showQuestion() {
+  resetState();
+  let currentQuestion = questions[currentQuestionIndex];
+  let questionNo = currentQuestionIndex + 1;
+  questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+  currentQuestion.answers.forEach((answer) => {
+    const button = document.createElement("button");
+    button.innerHTML = answer.text;
+    button.classList.add("btn");
+    answerButtons.appendChild(button);
+    if (answer.correct) {
+      button.dataset.correct = answer.correct;
+    }
+    button.addEventListener("click", selectAnswer);
+  });
+
+  // Update progress and re-render MathJax
+  updateProgress();
+  MathJax.typesetPromise();
+}
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

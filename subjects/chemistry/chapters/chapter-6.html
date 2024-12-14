@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 6: State of Matter: Solids</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+      question: "Quantity of energy released when 1 mole of the ionic crystal is formed from the gaseous ions is called:",
+      answers: [
+        { text: "Bond energy", correct: false },
+        { text: "Potential energy", correct: false },
+        { text: "Ionization energy", correct: false },
+        { text: "Lattice energy", correct: true },
+      ],
+    },
+    {
+      question: "Graphite can conduct electricity in one direction only. With this behavior, it is said to be:",
+      answers: [
+        { text: "Amorphous", correct: false },
+        { text: "Symmetrical", correct: false },
+        { text: "Anisotropic", correct: true },
+        { text: "Polymorphous", correct: false },
+      ],
+    },
+    {
+      question: "NaCl and MgO are isomorphous solids because these have same:",
+      answers: [
+        { text: "Melting point", correct: false },
+        { text: "Boiling point", correct: false },
+        { text: "Geometrical shapes", correct: true },
+        { text: "Chemical properties", correct: false },
+      ],
+    },
+    {
+      question: "The temperature at which two allotropic forms co-exist in equilibrium is called as:",
+      answers: [
+        { text: "Melting temperature", correct: false },
+        { text: "Fusion temperature", correct: false },
+        { text: "Transition temperature", correct: true },
+        { text: "Critical temperature", correct: false },
+      ],
+    },
+    {
+      question: "Diamond is the example of:",
+      answers: [
+        { text: "Ionic solid", correct: false },
+        { text: "Covalent solid", correct: true },
+        { text: "Metallic solid", correct: false },
+        { text: "Molecular solid", correct: false },
+      ],
+    },
+    {
+      question: "Ice is a molecular solid, the intermolecular force of attraction among its molecules are:",
+      answers: [
+        { text: "Ionic bond", correct: false },
+        { text: "Covalent bond", correct: false },
+        { text: "Metallic bond", correct: false },
+        { text: "Hydrogen bond", correct: true },
+      ],
+    },
+    {
+      question: "If all three axes in unit cell are of different length but all angles are of 90° then it is identified as:",
+      answers: [
+        { text: "Orthorhombic system", correct: true },
+        { text: "Cubic system", correct: false },
+        { text: "Tetragonal system", correct: false },
+        { text: "Hexagonal system", correct: false },
+      ],
+    },
+    {
+      question: "In NaCl, each Na⁺ ion is surrounded by Cl⁻ ions in the numbers:",
+      answers: [
+        { text: "Four", correct: false },
+        { text: "Three", correct: false },
+        { text: "Six", correct: true },
+        { text: "Seven", correct: false },
+      ],
+    }, 
+    {
+      question: "It is an example of crystalline solid:",
+      answers: [
+        { text: "Alum", correct: true },
+        { text: "Glass", correct: false },
+        { text: "Plastic", correct: false },
+        { text: "Rubber", correct: false },
+      ],
+    },
+    {
+      question: "Each unit cell of sodium chloride consists of:",
+      answers: [
+        { text: "Eight Na⁺ and Eight Cl⁻ ions", correct: false },
+        { text: "Two Na⁺ and Two Cl⁻ ions", correct: false },
+        { text: "Four Na⁺ and Four Cl⁻ ions", correct: true },
+        { text: "Four Na⁺ and Six Cl⁻ ions", correct: false },
+      ],
+    },
+  ];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

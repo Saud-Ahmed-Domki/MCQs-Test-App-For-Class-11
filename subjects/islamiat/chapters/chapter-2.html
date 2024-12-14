@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Surah Al-Anfal</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+    {
+        question: "What is the number of Surah Al-Anfal in the Quran?",
+        answers: [
+            { text: "7", correct: false },
+            { text: "8", correct: true },
+            { text: "9", correct: false },
+            { text: "10", correct: false },
+        ]
+    },
+    {
+        question: "Surah Al-Anfal primarily discusses which Battle?",
+        answers: [
+            { text: "Uhud", correct: false },
+            { text: "Badr", correct: true },
+            { text: "Hunayn", correct: false },
+            { text: "Trench", correct: false },
+        ]
+    },
+    {
+        question: "Surah Al-Anfal is named after which concept?",
+        answers: [
+            { text: "Charity", correct: false },
+            { text: "Spoil of War", correct: true },
+            { text: "Repentance", correct: false },
+            { text: "Peace", correct: false },
+        ]
+    },
+    {
+        question: "What is the theme of Surah Al-Anfal?",
+        answers: [
+            { text: "Family Life", correct: false },
+            { text: "Warfare", correct: true },
+            { text: "Pilgrimage", correct: false },
+            { text: "Social Justice", correct: false },
+        ]
+    },
+    {
+        question: "In Surah Al-Anfal, what does Allah promise those who are steadfast in the face of adversity?",
+        answers: [
+            { text: "wealth", correct: false },
+            { text: "Success in every endeavor", correct: false },
+            { text: "Victory and divine assistance", correct: true },
+            { text: "Immediate paradise", correct: false },
+        ]
+    },
+    {
+        question: "Which battle is referenced in Surah Al-Anfal as the \"Yum ul Furqan\"?",
+        answers: [
+            { text: "Battle of Badr", correct: true },
+            { text: "Battle of Uhud", correct: false },
+            { text: "Battle of Hunayn", correct: false },
+            { text: "Battle of Tabuk", correct: false },
+        ]
+    },
+    {
+        question: "What percentage of the Spoil of wars allocated to the Bait-ul-Mal?",
+        answers: [
+            { text: "5%", correct: false },
+            { text: "10%", correct: false },
+            { text: "20%", correct: true },
+            { text: "50%", correct: false },
+        ]
+    },
+    {
+        question: "In the battle of Badr Allah promised to the believers to help with .......... Angels.",
+        answers: [
+            { text: "One Thousand", correct: true },
+            { text: "Five Thousand", correct: false },
+            { text: "Two Thousand", correct: false },
+            { text: "Ten Thousnd", correct: false },
+        ]
+    },
+    {
+        question: "Surah Anfal revealed in",
+        answers: [
+            { text: "5 H.", correct: false },
+            { text: "4 H.", correct: false },
+            { text: "3 H.", correct: false },
+            { text: "2 H.", correct: true },
+        ]
+    },
+    {
+        question: "What is the meaning of لما يحييكم",
+        answers: [
+            { text: "Life", correct: false },
+            { text: "This world", correct: true },
+            { text: "Jihad", correct: false },
+            { text: "Death", correct: false },
+        ]
+    },
+    {
+        question: "What is meant by فتنة",
+        answers: [
+            { text: "Trial", correct: true },
+            { text: "Punishment", correct: false },
+            { text: "War", correct: false },
+            { text: "Death", correct: false },
+        ]
+    },
+    {
+        question: "Your belongings and Your children are a",
+        answers: [
+            { text: "blessing", correct: false },
+            { text: "Punishment", correct: false },
+            { text: "Trial", correct: true },
+            { text: "Reward", correct: false },
+        ]
+    },
+    {
+        question: "According Surah Anfal If you fear Allah He will grant you",
+        answers: [
+            { text: "Paradise", correct: false },
+            { text: "Hell", correct: false },
+            { text: "Strength", correct: false },
+            { text: "Criterion", correct: true },
+        ]
+    },
+    {
+        question: "Disbelievers schemed to take captive or kill or drive away against",
+        answers: [
+            { text: "Prophet", correct: true },
+            { text: "Companion", correct: false },
+            { text: "Believers", correct: false },
+            { text: "Hypocrites", correct: false },
+        ]
+    },
+    {
+        question: "The polytheists prayed to send down on us from the sky.",
+        answers: [
+            { text: "Water", correct: false },
+            { text: "Rain", correct: false },
+            { text: "Stones", correct: true },
+            { text: "Air", correct: false },
+        ]
+    },
+    {
+        question: "\"الركب\" means",
+        answers: [
+            { text: "Abu Jahl army", correct: false },
+            { text: "Caravan", correct: true },
+            { text: "Battle", correct: false },
+            { text: "Group", correct: false },
+        ]
+    },
+    {
+        question: "Khums \"خمس\" is",
+        answers: [
+            { text: "One Third", correct: false },
+            { text: "One Fourth", correct: false },
+            { text: "One Fifth", correct: true },
+            { text: "Half", correct: false },
+        ]
+    },
+    {
+        question: "In the battle of Badr Iblees saw ...... and run away.",
+        answers: [
+            { text: "Jin", correct: false },
+            { text: "Angels", correct: true },
+            { text: "Army", correct: false },
+            { text: "Prophet", correct: false },
+        ]
+    },
+    {
+        question: "Who said to disbelievers \"I am Your supporter\"",
+        answers: [
+            { text: "Satan", correct: true },
+            { text: "Abu Jahl", correct: false },
+            { text: "Abu Sufyan", correct: false },
+            { text: "Quraish", correct: false },
+        ]
+    },
+    {
+        question: "Angels smite ......... at the time of death.",
+        answers: [
+            { text: "Animals", correct: false },
+            { text: "Every person", correct: false },
+            { text: "Believers", correct: false },
+            { text: "Kuffar", correct: true },
+        ]
+    },
+    {
+        question: "Who were drowned?",
+        answers: [
+            { text: "Al-e-Samood", correct: false },
+            { text: "Al-e-Hood", correct: false },
+            { text: "Al-e-Pharaoh", correct: true },
+            { text: "Al-e-Imran", correct: false },
+        ]
+    },
+    {
+        question: "Who are the worst of creatures?",
+        answers: [
+            { text: "Animals", correct: false },
+            { text: "Wild Animals", correct: false },
+            { text: "Hypocrites", correct: false },
+            { text: "disbelievers", correct: true },
+        ]
+    },
+    {
+        question: "How much arms Muslims have to collect?",
+        answers: [
+            { text: "Little", correct: false },
+            { text: "too much", correct: false },
+            { text: "as much as they can", correct: true },
+            { text: "nothing", correct: false },
+        ]
+    },
+    {
+        question: "Allah will return ......... completely",
+        answers: [
+            { text: "Wealth", correct: false },
+            { text: "everything", correct: true },
+            { text: "Gold", correct: false },
+            { text: "Time", correct: false },
+        ]
+    },
+    {
+        question: "......... is sufficient for the Prophet and the believers.",
+        answers: [
+            { text: "Allah", correct: true },
+            { text: "Qur'an", correct: false },
+            { text: "Angels", correct: false },
+            { text: "Arms", correct: false },
+        ]
+    },
+    {
+        question: "Allah said to Prophet to urge believers for the",
+        answers: [
+            { text: "Business", correct: false },
+            { text: "Jihad", correct: true },
+            { text: "Prayer", correct: false },
+            { text: "Hajj", correct: false },
+        ]
+    },
+    {
+        question: "The first promise of victory to the believers was based on the number of their enemies.",
+        answers: [
+            { text: "Equal", correct: false },
+            { text: "Double", correct: false },
+            { text: "Ten Time", correct: true },
+            { text: "Five Time", correct: false },
+        ]
+    },
+    {
+        question: "The final promise of victory to the believers was based on the number of their enemies.",
+        answers: [
+            { text: "Equal", correct: false },
+            { text: "Double", correct: true },
+            { text: "Ten Time", correct: false },
+            { text: "Five Time", correct: false },
+        ]
+    },
+    {
+        question: "Prophet Muhammad, peace be upon him, consulted regarding prisoners of war with",
+        answers: [
+            { text: "Prisoners", correct: false },
+            { text: "Quraish", correct: false },
+            { text: "His companions", correct: true },
+            { text: "Allah", correct: false },
+        ]
+    },
+    {
+        question: "The captives of Badr were granted their freedom in exchange of.",
+        answers: [
+            { text: "Ransom", correct: true },
+            { text: "Zakat", correct: false },
+            { text: "Tax", correct: false },
+            { text: "Promise", correct: false },
+        ]
+    },
+    {
+        question: "\"والذين اووا ونصروا\" is refer to",
+        answers: [
+            { text: "Muslims", correct: false },
+            { text: "Momin", correct: false },
+            { text: "Muhajir", correct: false },
+            { text: "Ansar", correct: true },
+        ]
+    },
+    {
+        question: "In Surah Al Anfal there are ....... Ayat",
+        answers: [
+            { text: "100", correct: false },
+            { text: "75", correct: true },
+            { text: "124", correct: false },
+            { text: "286", correct: false },
+        ]
+    },
+    {
+        question: "Number of Ruku (ركوع) in Surah Al Anfal is",
+        answers: [
+            { text: "10", correct: true },
+            { text: "20", correct: false },
+            { text: "30", correct: false },
+            { text: "40", correct: false },
+        ]
+    },
+    { 
+        question: "What is the main purpose of holy Books?",
+        answers: [
+            { text: "Religious knowledge", correct: false },
+            { text: "Information of prophets", correct: false },
+            { text: "Guidance for Mankind", correct: true },
+            { text: "Mental Satisfaction", correct: false },
+        ]
+    },
+    {
+        question: "What is the most important subject of holy Books?",
+        answers: [
+            { text: "Angels", correct: false },
+            { text: "Human Beings", correct: true },
+            { text: "Allah Himself", correct: false },
+            { text: "Birds and Animals", correct: false },
+        ]
+    },
+    {
+        question: "From which source, human beings can make criterion of Judgement between right and wrong?",
+        answers: [
+        { text: "Holy Books", correct: true },
+            { text: "Sayings of the saints", correct: false },
+            { text: "Books of literature", correct: false },
+            { text: "Books of Ethics", correct: false },
+        ]
+    },
+    {
+        question: "The Torat was revealed on",
+        answers: [
+            { text: "Hazrat Moosa (A.S)", correct: true },
+            { text: "Hazrat Dawood (AS)", correct: false },
+            { text: "Hazrat Ibraheem (A.S)", correct: false },
+            { text: "Hazrat Essa (AS)", correct: false },
+        ]
+    },
+    {
+        question: "The Zaboor was revealed on",
+        answers: [
+            { text: "Hazrat Ibraheem (A.S)", correct: false },
+            { text: "Hazrat Dawood (AS)", correct: true },
+            { text: "Hazrat Nooh (A. S)", correct: false },
+            { text: "Hazrat Yahya (AS)", correct: false },
+        ]
+    },
+    {
+        question: "The Injeel or Bible was revealed on",
+        answers: [
+            { text: "Jesus Christ (A.S)", correct: true },
+            { text: "Hazrat Moses (A.S)", correct: false },
+            { text: "Hazrat Joseph (A.S)", correct: false },
+            { text: "Hazrat Nova (AS)", correct: false },
+        ]
+    },
+    {
+        question: "The Holy Quran was revealed on",
+        answers: [
+            { text: "Hazrat Muhammad (P.B.U.H)", correct: true },
+            { text: "Hazrat Jesus Christ (A.S)", correct: false },
+            { text: "Hazrat David (A.S)", correct: false },
+            { text: "Hazrat Moses (A. S)", correct: false },
+        ]
+    },
+    {
+        question: "In which language the Torat was revealed?",
+        answers: [
+            { text: "Siriac", correct: false },
+            { text: "Hebrew", correct: true },
+            { text: "Latin", correct: false },
+            { text: "Greek", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

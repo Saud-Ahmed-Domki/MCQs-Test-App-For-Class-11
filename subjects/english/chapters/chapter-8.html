@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Prose 8: A Voyage ti the City of Lions</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+    {
+        question: "Singapore is located in__________.",
+        answers: [
+            { text: "South Asia", correct: false },
+            { text: "Africa", correct: false },
+            { text: "Central Asia", correct: false },
+            { text: "Europe", correct: false },
+        ]
+    },
+    {
+        question: "_____ is not a national language of Singapore.",
+        answers: [
+            { text: "English", correct: false },
+            { text: "French", correct: true },
+            { text: "Chinese", correct: false },
+            { text: "Malay", correct: false },
+        ]
+    },
+    {
+        question: "_____ the population of Singapore is living far away from the port.",
+        answers: [
+            { text: "20%", correct: true },
+            { text: "30%", correct: false },
+            { text: "50%", correct: false },
+            { text: "80%", correct: false },
+        ]
+    },
+    {
+        question: "One of the largest markets in Singapore is________.",
+        answers: [
+            { text: "Change alley", correct: false },
+            { text: "Raffles pulse", correct: true },
+            { text: "Changi", correct: false },
+            { text: "Barges", correct: false },
+        ]
+    },
+    {
+        question: "Singapore is called Mr. Clean because of:",
+        answers: [
+            { text: "rows of flowers", correct: false },
+            { text: "greenery", correct: false },
+            { text: "cleanliness", correct: true },
+            { text: "seeing sights", correct: false },
+        ]
+    },
+    {
+        question: "_____ street of Singapore is reasonable for purchase.",
+        answers: [
+            { text: "Arab", correct: true },
+            { text: "Club", correct: false },
+            { text: "Amoy", correct: false },
+            { text: "Bugis", correct: false },
+        ]
+    },
+    {
+        question: "_____ city is one mile away from Singapore.",
+        answers: [
+            { text: "Kiamari", correct: false },
+            { text: "Johar", correct: true },
+            { text: "Jatty", correct: false },
+            { text: "Raffles pulse", correct: false },
+        ]
+    },
+    {
+        question: "The land of Singapore consist of _____ square miles.",
+        answers: [
+            { text: "225 square miles", correct: false },
+            { text: "2025 square miles", correct: true },
+            { text: "200 square miles", correct: false },
+            { text: "2005 square miles", correct: false },
+        ]
+    },
+    {
+        question: "In Singapore, we can find every currency of the world in _____.",
+        answers: [
+            { text: "Change Valley", correct: true },
+            { text: "Raffle Pulse", correct:  false},
+            { text: "Mr. Clean", correct: false },
+            { text: "Arab Street", correct: false },
+        ]
+    },
+    {
+        question: "Which one is common in Singapore markets?",
+        answers: [
+            { text: "fixed prices", correct: false },
+            { text: "bargaining", correct: true },
+            { text: "free discounts", correct: false },
+            { text: "Govt. subsidy", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

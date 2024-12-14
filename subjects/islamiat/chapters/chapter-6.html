@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Angels</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "What is the third fundamental belief of Islam?",
+        answers: [
+            { text: "Belief in Tauheed", correct: false },
+            { text: "Belief in Prophets", correct: false },
+            { text: "Belief in Angels", correct: true },
+            { text: "Belief in Holy Books", correct: false },
+        ]
+    },
+    {
+        question: "The belief in Angels purifies the concept of......",
+        answers: [
+            { text: "Tauheed", correct: true },
+            { text: "Risalat", correct: false },
+            { text: "Angelism", correct: false },
+            { text: "Atheism", correct: false },
+        ]
+    },
+    {
+        question: "What is the meaning of Malaika?",
+        answers: [
+            { text: "Prophets", correct: false },
+            { text: "People", correct: false },
+            { text: "Angels", correct: true },
+            { text: "Shayateen", correct: false },
+        ]
+    },
+    {
+        question: "Angels are created from",
+        answers: [
+            { text: "Fire", correct: false },
+            { text: "Light", correct: true },
+            { text: "Water", correct: false },
+            { text: "Clay", correct: false },
+        ]
+    },
+    {
+        question: "Angels are to administer the Kingdom of......",
+        answers: [
+            { text: "Allah", correct: true },
+            { text: "Prophet", correct: false },
+            { text: "Fluting kings", correct: false },
+            { text: "Common people", correct: false },
+        ]
+    },
+    {
+        question: "Even though Angels are made from light, but who are superior to them?",
+        answers: [
+            { text: "Shetan", correct: false },
+            { text: "Humans", correct: true },
+            { text: "Animals", correct: false },
+            { text: "Jinns", correct: false },
+        ]
+    },
+    {
+        question: "How many times the description of Angels occurred in the Holy Quran?",
+        answers: [
+            { text: "65", correct: false },
+            { text: "68", correct: true },
+            { text: "70", correct: false },
+            { text: "75", correct: false },
+        ]
+    },
+    {
+        question: "There are many Angels, but how are more exalted?",
+        answers: [
+            { text: "one", correct: false },
+            { text: "two", correct: false },
+            { text: "three", correct: false },
+            { text: "four", correct: true },
+        ]
+    },
+    {
+        question: "Name the religion in which belief in all Angels as fundamental belief?",
+        answers: [
+            { text: "Islam", correct: true },
+            { text: "Christianity", correct: false },
+            { text: "Judaism", correct: false },
+            { text: "Hinduism", correct: false },
+        ]
+    },
+    {
+        question: "Who is the incharge of protection and rain?",
+        answers: [
+            { text: "Hazrat Jibraeel (A.S)", correct: false },
+            { text: "Hazrat Izraeel (A.S)", correct: false },
+            { text: "Hazrat Israfeel (A.S)", correct: false },
+            { text: "Hazrat Mekaeel (A.S)", correct: true },
+        ]
+    },
+    {
+        question: "What is the main duty of Hazrat Jibraeel (A.S)?",
+        answers: [
+            { text: "To supply food", correct: false },
+            { text: "To bring messages to holy Prophets of God", correct: true },
+            { text: "To take out souls", correct: false },
+            { text: "To blow Trumpet at the Day of Judgement", correct: false },
+        ]
+    },
+    {
+        question: "Who takes out souls of life bearing creatures?",
+        answers: [
+            { text: "Hazrat Israfeel (A.S)", correct: false },
+            { text: "Hazrat Mekaeel (A.S)", correct: false },
+            { text: "Hazrat Izraeel (A.S)", correct: true },
+            { text: "Hazrat Jibraeel (A.S)", correct: false },
+        ]
+    },
+    {
+        question: "Who will blow the trumpet on the Day of Judgment?",
+        answers: [
+            { text: "Hazrat Izraeel (A.S)", correct: false },
+            { text: "Hazrat Israfeel (A.S)", correct: true },
+            { text: "Hazrat Mekaeel (A.S)", correct: false },
+            { text: "Hazrat Jibraeel (A.S)", correct: false },
+        ]
+    },
+    {
+        question: "Malak-al-Moout is an other name of which angel?",
+        answers: [
+            { text: "Hazrat Jibraeel (A.S)", correct: false },
+            { text: "Hazrat Izraeel (A.S)", correct: true },
+            { text: "Hazrat Haroot(A.S)", correct: false },
+            { text: "Munkar and Nakeer", correct: false },
+        ]
+    },
+    {
+        question: "Who is referred in the Quran as \"Rooh-al-Ameen\" and \"Rooh-al-Qudus\"?",
+        answers: [
+            { text: "Hazrat Jibraeel (AS)", correct: true },
+            { text: "Hazrat Meekaeel (A.S)", correct: false },
+            { text: "Hazrat Israfeel (A.S)", correct: false },
+            { text: "Hazrat Izraeel (A.S)", correct: false },
+        ]
+    },
+    {
+        question: "Which angel is an Incharge of Hell?",
+        answers: [
+            { text: "Ridwan", correct: false },
+            { text: "Malik", correct: true },
+            { text: "Haroot", correct: false },
+            { text: "Maroot", correct: false },
+        ]
+    },
+    {
+        question: "Which angel is an incharge of paradise?",
+        answers: [
+            { text: "Ridwan", correct: true },
+            { text: "Malik", correct: false },
+            { text: "Zabina", correct: false },
+            { text: "Maroot", correct: false },
+        ]
+    },
+    {
+        question: "Name the angels, who write good and bad deeds of human beings?",
+        answers: [
+            { text: "Munkar and Nakeer", correct: false },
+            { text: "Haroot and Maroot", correct: false },
+            { text: "Kiramun Katbeen", correct: true },
+            { text: "Zabina", correct: false },
+        ]
+    },
+    {
+        question: "Malik is an angel, incharge of Hell, and who is his assistant?",
+        answers: [
+            { text: "Haroot and Maroot", correct: false },
+            { text: "Hazrat Izraeel", correct: false },
+            { text: "Zabania", correct: true },
+            { text: "Ridwan", correct: false },
+        ]
+    },
+    {
+        question: "Name the Angels who are appointed to ask questions in their graves?",
+        answers: [
+            { text: "Munkar and Nakeer", correct: true },
+            { text: "Kiramun Katbeen", correct: false },
+            { text: "Haroot and Maroot", correct: false },
+            { text: "Zabania and Malik", correct: false },
+        ]
+    },
+    {
+        question: "To whom Almighty Allah sent to perish nation of Hazrat Loot?",
+        answers: [
+            { text: "Jins (A.S)", correct: false },
+            { text: "Human Beings", correct: false },
+            { text: "Angels", correct: true },
+            { text: "Ababeels", correct: false },
+        ]
+    },
+    {
+        question: "How many Angels, Almighty Allah sent to the holy prophet (PBUH) in the battle of Badr for his help?",
+        answers: [
+            { text: "5000", correct: false },
+            { text: "4000", correct: false },
+            { text: "1000", correct: true },
+            { text: "2000", correct: false },
+        ]
+    },
+    {
+        question: "At the time of Miraj, Hazrat Jibraeel (A.S) refused to forward on which place.",
+        answers: [
+            { text: "Masjid-e-Haram", correct: false },
+            { text: "1st Sky", correct: false },
+            { text: "Masjd-e-Aqsa", correct: false },
+            { text: "Sidrat-ul-Muntaha", correct: true },
+        ]
+    },
+    {
+        question: "What called unbelievers of Arabs to angels?",
+        answers: [
+            { text: "Sons of Allah", correct: false },
+            { text: "Daughters of Allah", correct: true },
+            { text: "Relatives of Allah", correct: false },
+            { text: "All of these", correct: false },
+        ]
+    },
+    {
+        question: "Long, long ago Iblees was an......",
+        answers: [
+            { text: "Shatan", correct: false },
+            { text: "Jin", correct: true },
+            { text: "Angel", correct: false },
+            { text: "Humanbeing", correct: false },
+        ]
+    },
+    {
+        question: "Iblees means......",
+        answers: [
+            { text: "Hopeful", correct: false },
+            { text: "Hopeless", correct: true },
+            { text: "Happy", correct: false },
+            { text: "Harmful", correct: false },
+        ]
+    },
+    {
+        question: "To whom Almighty Allah gave permission to lure human being away from submission and obedience to Him",
+        answers: [
+            { text: "Shatan", correct: true },
+            { text: "Jin", correct: false },
+            { text: "Angels", correct: false },
+            { text: "All of them", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

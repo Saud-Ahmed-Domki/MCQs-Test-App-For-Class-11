@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 8: Eletric Field</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "A 2µC point charge is located a distance \"d\" away from 6µC point charge, what is the ratio of F12/F21?",
+        answers: [
+            { text: "1/3", correct: false },
+            { text: "3", correct: false },
+            { text: "1", correct: true },
+            { text: "12", correct: false },
+        ]
+    },
+    {
+        question: "The minimum charge on an object cannot be less than:",
+        answers: [
+            { text: "1.6 x 10^-19 C", correct: false },
+            { text: "3.2 x 10^-19 C", correct: true },
+            { text: "9.1 x 10^9 C", correct: false },
+            { text: "No definite value exist", correct: false },
+        ]
+    },
+    {
+        question: "Two charges are placed at a certain distance. If the magnitude of each charge is doubled, the force will become:",
+        answers: [
+            { text: "1/4th of its original value", correct: false },
+            { text: "4 times of its original value", correct: true },
+            { text: "1/8th of its original value", correct: false },
+            { text: "8 times of its original value", correct: false },
+        ]
+    },
+    {
+        question: "Which of the following can be deflected while moving in the electric field?",
+        answers: [
+            { text: "neutron", correct: false },
+            { text: "photon", correct: false },
+            { text: "electron", correct: true },
+            { text: "(a) and (b)", correct: false },
+        ]
+    },
+    {
+        question: "The flux through a flat surface of area \"A\" in a uniform electric field \"E\" is maximum when the surface area is:",
+        answers: [
+            { text: "Parallel to E", correct: true },
+            { text: "perpendicular to E", correct: false },
+            { text: "placed 45° to E", correct: false },
+            { text: "placed 60° to E", correct: false },
+        ]
+    },
+    {
+        question: "The product of charge \"q\" and small separation \"d\" between two charges of same magnitude and opposite in nature is known as:",
+        answers: [
+            { text: "Electric dipole", correct: false },
+            { text: "Moment arm", correct: false },
+            { text: "Electric dipole moment", correct: true },
+            { text: "Flux of electric field", correct: false },
+        ]
+    },
+    {
+        question: "12 J of work is to be done against an existence electric field to take a charge of 0.01 C from one-point A to another point B. The potential difference between B and A is",
+        answers: [
+            { text: "120 V", correct: false },
+            { text: "1200 V", correct: true },
+            { text: "1.2 V", correct: false },
+            { text: "12 V", correct: false },
+        ]
+    },
+    {
+        question: "The force between two charges placed in air is F. if air is replaced by a medium of relative permittivity εr, then force is reduced to:",
+        answers: [
+            { text: "Fεr", correct: false },
+            { text: "F/εr", correct: true },
+            { text: "εr/F", correct: false },
+            { text: "εεr", correct: false },
+        ]
+    },
+    {
+        question: "The negative gradient of the potential is:",
+        answers: [
+            { text: "potential energy", correct: false },
+            { text: "voltage", correct: false },
+            { text: "electric field intensity", correct: true },
+            { text: "electric flux", correct: false },
+        ]
+    },
+    {
+        question: "The electric flux through a plane area will be half of its maximum value when area is held at angle of ________ with electric field.",
+        answers: [
+            { text: "30°", correct: false },
+            { text: "60°", correct: true },
+            { text: "45°", correct: false },
+            { text: "90°", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

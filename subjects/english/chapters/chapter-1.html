@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Prose 1: Quaid on 11th August, 1947</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "The Quaid-e-Azam was speaking to the Constituent Assembly at_______.",
+        answers: [
+            { text: "national level", correct: true },
+            { text: "regional level", correct: false },
+            { text: "global level", correct: false },
+            { text: "provincial level", correct: false },
+        ]
+    },
+    {
+        question: "The main function of the Constituent Assembly was to_______.",
+        answers: [
+            { text: "make country as example", correct: false },
+            { text: "honour assembly members", correct: false },
+            { text: "make constitution", correct: true },
+            { text: "practice constitutional wave of revolution", correct: false },
+        ]
+    },
+    {
+        question: "According to the Quaid-e-Azam, 'cyclonic revolution' meant a_______.",
+        answers: [
+            { text: "discrimination", correct: false },
+            { text: "revolt", correct: true },
+            { text: "elections", correct: false },
+            { text: "legislation", correct: false },
+        ]
+    },
+    {
+        question: "The main task of the Govt. according to the Quaid-e-Azam is to_______.",
+        answers: [
+            { text: "make constitution for provinces", correct: false },
+            { text: "stop black marketing", correct: false},
+            { text: "curb bribery", correct: false },
+            { text: "make law and order", correct: true },
+        ]
+    },
+    {
+        question: "According to the Quaid-e-Azam, the poisonous thing is_______.",
+        answers: [
+            { text: "corruption", correct: true },
+            { text: "black-marketing", correct: false },
+            { text: "nepotism", correct: false },
+            { text: "law and order situation", correct: false },
+        ]
+    },
+    {
+        question: "The colossal crime monster as stated in the text is_______.",
+        answers: [
+            { text: "break the law", correct: false },
+            { text: "black marketing", correct: true },
+            { text: "favouritism", correct: false },
+            { text: "bribery", correct:  false},
+        ]
+    },
+    {
+        question: "On 11 August 1947, Quaid-e Azam was speaking to_______.",
+        answers: [
+            { text: "already assembly", correct: false },
+            { text: "first legislative body", correct: false },
+            { text: "whole nation", correct: true },
+            { text: "members of the provincial body", correct: false },
+        ]
+    },
+    {
+        question: "The first legislative body was bestowed with_______.",
+        answers: [
+            { text: "full powers", correct: true },
+            { text: "limited powers", correct: false },
+            { text: "only make legislative powers", correct: false },
+            { text: "only powers to curb bribery", correct: false },
+        ]
+    },
+    {
+        question: "The thing that was already prevailing in the continent after partition was_______.",
+        answers: [
+            { text: "bribery", correct: false },
+            { text: "foodstuff", correct: false },
+            { text: "nepotism", correct: true },
+            { text: "starvation", correct: false },
+        ]
+    },
+    {
+        question: "The guided principles of the Quaid-e-Azam Muhammad Ali Jinnah are__________.",
+        answers: [
+            { text: "support & cooperation", correct: false },
+            { text: "justice & fair play", correct: true },
+            { text: "prejudice & honour", correct: false },
+            { text: "angularities of majority & minority", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

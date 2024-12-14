@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 9: Chemical Kinetics</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "For a hypothetical reaction x + y → z, if the conc. of x is doubled, the rate increases by square and if the conc. of y is doubled the rate increases by twice. The experimental rate law of this reaction is:",
+        answers: [
+            { text: "R = K[x][y]", correct: false },
+            { text: "R = K[x][y]^2", correct: false },
+            { text: "R = K[x]^2[y]", correct: true },
+            { text: "R = K[x]^2[y]^2", correct: false },
+        ]
+    },
+    {
+        question: "The unit of rate constant (K) for the first order reaction is:",
+        answers: [
+            { text: "s^-1", correct: true },
+            { text: "M s^-1", correct: false },
+            { text: "M^-1 s", correct: false },
+            { text: "M^-1 s^-1", correct: false },
+        ]
+    },
+    {
+        question: "Rate constant of a reaction is affected by:",
+        answers: [
+            { text: "Conc. of reactants", correct: false },
+            { text: "Conc. of products", correct: false },
+            { text: "Temperature", correct: true },
+            { text: "Reaction time", correct: false },
+        ]
+    },
+    {
+        question: "The purpose of using of catalyst in a chemical reaction is to change:",
+        answers: [
+            { text: "Equilibrium constant", correct: false },
+            { text: "Enthalpy of reaction", correct: false },
+            { text: "Activation energy", correct: true },
+            { text: "Nature of reaction", correct: false },
+        ]
+    },
+    {
+        question: "If the rate aw of a reaction is R = K, its order of reaction should be:",
+        answers: [
+            { text: "Zero order", correct: true },
+            { text: "First order", correct: false },
+            { text: "Second order", correct: false },
+            { text: "Third order", correct: false },
+        ]
+    },
+    {
+        question: "Ionic reactions are classified into:",
+        answers: [
+            { text: "Slow reactions", correct: false },
+            { text: "Moderate reactions", correct: false },
+            { text: "Fast reactions", correct: true },
+            { text: "Reversible reaction", correct: false },
+        ]
+    },
+    {
+        question: "The decomposition of H2O2 is inhibited by:",
+        answers: [
+        { text: "2% ethanol", correct: false },
+        { text: "Glycerin", correct: true },
+            { text: "MnO2", correct: false },
+         
+           
+            { text: "V2O5", correct: false },
+        ]
+    },
+    {
+        question: "The best alternative term for the velocity of reaction is:",
+        answers: [
+            { text: "Rate of appearance", correct: false },
+            { text: "Rate of disappearance", correct: false },
+            { text: "Average rate", correct: false },
+           
+            { text: "Instantaneous rate", correct: true },
+        ]
+    }, 
+    {
+        question: "Order of reaction is the power to which concentration of reactant is:",
+        answers: [
+            { text: "Lowered", correct: false },
+            { text: "Raised", correct: true },
+            { text: "Stopped", correct: false },
+            { text: "Constant", correct: false },
+        ]
+    },
+    {
+        question: "In the reaction A → B, the rate of disappearance is written as:",
+        answers: [
+            { text: "dA/dt", correct: false },
+            { text: "-dA/dt", correct: true },
+            { text: "dB/dt", correct: false },
+            { text: "-dB/dt", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MCQs Test App - Class 11</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #001e4d;
+      }
+
+      .app {
+        background: #fff;
+        width: 90%;
+        max-width: 600px;
+        margin: 100px auto 0;
+        border-radius: 10px;
+        padding: 30px;
+      }
+
+      .app h1 {
+        font-size: 25px;
+        color: #001e4d;
+        font-weight: 600;
+        border-bottom: 1px solid #333;
+        padding-bottom: 30px;
+      }
+
+      .quiz {
+        padding: 20px 0;
+      }
+
+      .quiz h2 {
+        font-size: 18px;
+        color: #001e4d;
+        font-weight: 600;
+      }
+
+      .btn {
+        background: #fff;
+        color: #222;
+        font-weight: 500;
+        width: 100%;
+        border: 1px solid #222;
+        padding: 10px;
+        margin: 10px 0;
+        text-align: left;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn:hover:not([disabled]) {
+        background: #222;
+        color: #fff;
+      }
+
+      .btn:disabled {
+        cursor: no-drop;
+      }
+
+      #next-btn {
+        background: #001e4d;
+        color: #fff;
+        font-weight: 500;
+        width: 150px;
+        border: 0;
+        padding: 10px;
+        margin: 20px auto 0;
+        border-radius: 4px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .correct {
+        background: #9aeabc;
+      }
+
+      .incorrect {
+        background: #ff9393;
+      }
+
+      #progress {
+        margin-top: 20px;
+        text-align: center;
+        color: #001e4d;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>Unit 7: Mathematical Induction & Binomial Theorem</h1>
+      <div class="quiz">
+        <h2 id="question">Question 1: What is the capital of India?</h2>
+        <div id="answer-buttons">
+          <button class="btn">Answer 1</button>
+          <button class="btn">Answer 2</button>
+          <button class="btn">Answer 3</button>
+          <button class="btn">Answer 4</button>
+        </div>
+        <button id="next-btn">Next</button>
+      </div>
+      <div id="progress">Question 1 of 4</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      const questions = [
+        {
+            question: "The general term of the binomial expansion \\((a+x)^n\\) is where \\(n \\in \\mathbb{N}\\)",
+            answers: [
+               
+                { text: `\\(\\
+\\begin{pmatrix} n \\\\ r \\end{pmatrix}\\ a^{n} x\\)`, correct: false },
+                 { text: `\\(\\
+\\begin{pmatrix} n \\\\ r \\end{pmatrix}\\ a^{n-r} x^r\\)`, correct: true },
+                { text: `\\(\\
+\\begin{pmatrix} n \\\\ r \\end{pmatrix}\\ a^r x^{n-r}\\)`, correct: false },
+                { text: `\\(\\
+\\begin{pmatrix} n \\\\ r \\end{pmatrix}\\ (ax)^{n-r}\\)`, correct: false },
+            ]
+        },
+        {
+          question:
+            "The number of terms in the expansion of \\((a+b)^{2n}\\) is:",
+          answers: [
+            { text: "\\(n\\)", correct: false },
+            { text: "\\(2n + 1\\)", correct: true },
+            { text: "\\(2n\\)", correct: false },
+            { text: "\\(2^{n-1}\\)", correct: false },
+          ],
+        },
+        {
+          question: "In the expansion \\((a+x)^n\\), the exponent of \\(x\\):",
+          answers: [
+            { text: "decreases from \\(n\\) to \\(0\\)", correct: false },
+            { text: "increases from \\(0\\) to \\(n\\)", correct: true },
+            { text: "remains \\(n\\) everywhere", correct: false },
+            { text: "becomes \\(0\\) at the end", correct: false },
+          ],
+        },
+        {
+          question: "Middle term in the expansion of \\((a+b)^{2n}\\) is:",
+          answers: [
+            { text: "nth term", correct: false },
+            { text: "\\((n+1)\\)th term", correct: true },
+            { text: "\\((2n+1)\\)th term", correct: false },
+            { text: "\\((2n-1)\\)th term", correct: false },
+          ],
+        },
+        {
+          question:
+            "The term independent of \\(x\\) in the expansion of \\((a+2x)^n\\) is:",
+          answers: [
+            { text: "First term", correct: true },
+            { text: "Middle term", correct: false },
+            { text: "Last term", correct: false },
+            { text: "\\(2^{nd}\\) last term", correct: false },
+          ],
+        },
+        {
+          question:
+            "The coefficient of the last term in the expansion of \\((2-x)^7\\) is/are:",
+          answers: [
+            { text: "1", correct: false },
+            { text: "-1", correct: true },
+            { text: "7", correct: false },
+            { text: "-7", correct: false },
+          ],
+        },
+        {
+          question:
+            "In the expansion \\((a + \\frac{1}{2})^7\\), the number of middle terms is/are:",
+          answers: [
+            { text: "One", correct: false },
+            { text: "Two", correct: true },
+            { text: "Three", correct: false },
+            { text: "Four", correct: false },
+          ],
+        },
+        {
+          question:
+            "The sum of odd binomial coefficients in the expansion of \\((a+x)^n\\) is:",
+          answers: [
+            { text: "\\(2^n\\)", correct: false },
+            { text: "\\(2^{n-1}\\)", correct: true },
+            { text: "\\(2^{n+1}\\)", correct: false },
+            { text: "\\(n+1\\)", correct: false },
+          ],
+        },
+        {
+          question:
+            "\\(\\binom{n+1}{0} + \\binom{n+1}{1} + \\binom{n+1}{2} + \\dots + \\binom{n+1}{n+1}\\) is equal to:",
+          answers: [
+            { text: "\\(2^n\\)", correct: false },
+            { text: "\\(2^{n+1}\\)", correct: true },
+            { text: "\\(2^{n-1}\\)", correct: false },
+            { text: "Cannot be determined", correct: false },
+          ],
+        },
+        {
+          question:
+            "The number of terms in the expansion of \\((1+x)^{\\frac{1}{3}}\\) is:",
+          answers: [
+            { text: "\\(\\frac{4}{3}\\)", correct: false },
+            { text: "4", correct: false },
+            { text: "\\(\\infty\\)", correct: true },
+            { text: "2", correct: false },
+          ],
+        },
+        {
+          question: "\\(1-x+x^2-x^3+\\dots\\) equals:",
+          answers: [
+            { text: "\\((1+x)^{-1}\\)", correct: true },
+            { text: "\\((1-x)^{-1}\\)", correct: false },
+            { text: "\\((1+x)^{-2}\\)", correct: false },
+            { text: "\\((1-x)^{-2}\\)", correct: false },
+          ],
+        },
+        {
+          question: "The expansion of \\((1-2x)^{-2}\\) is valid if:",
+          answers: [
+            { text: "\\(|x|<0\\)", correct: false },
+            { text: "\\(|x| < \\frac{1}{2}\\)", correct: true },
+            { text: "\\(|x| < 2\\)", correct: false },
+            { text: "\\(|x| < 1\\)", correct: false },
+          ],
+        },
+        {
+          question:
+            "If the middle term in the expansion of \\((a+b)^n\\) is \\((\\frac{n}{2}+1)\\)th term, then \\(n\\) is:",
+          answers: [
+            { text: "Odd", correct: false },
+            { text: "Even", correct: true },
+            { text: "Prime", correct: false },
+            { text: "None of these", correct: false },
+          ],
+        },
+        {
+          question:
+            "In \\((a + \\frac{1}{a})^8\\), the sum of the binomial coefficients is:",
+          answers: [
+            { text: "64", correct: false },
+            { text: "128", correct: false },
+            { text: "256", correct: true },
+            { text: "512", correct: false },
+          ],
+        },
+      ];
+
+      const questionElement = document.getElementById("question");
+      const answerButtons = document.getElementById("answer-buttons");
+      const nextButton = document.getElementById("next-btn");
+      const progressElement = document.getElementById("progress");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        showQuestion();
+        updateProgress();
+        MathJax.typesetPromise();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerHTML = answer.text;
+          button.classList.add("btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+
+        // Update progress and re-render MathJax
+        updateProgress();
+        MathJax.typesetPromise();
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = true;
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+
+      function updateProgress() {
+        progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${
+          questions.length
+        }`;
+      }
+
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+
+      startQuiz();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Unit 1: Complex Numbers</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+  const questions = [
+  {
+    question: "For any complex number \\(z\\), \\(|z|\\) is equal to:",
+    answers: [
+      { text: "\\(|z̄|\\)", correct: false },
+      { text: "\\(|-z|\\)", correct: false },
+      { text: "\\(|-z̄|\\)", correct: false },
+      { text: "all of these", correct: true },
+    ],
+  },
+  {
+    question: "If \\(z₁\\) and \\(z₂\\) are any two complex numbers, then:",
+    answers: [
+      { text: "\\(|z₁ + z₂| < |z₁| + |z₂|\\)", correct: false },
+      { text: "\\(|z₁ + z₂| ≤ |z₁| + |z₂|\\)", correct: true },
+      { text: "\\(|z₁ - z₂| < |z₁| - |z₂|\\)", correct: false },
+      { text: "\\(|z₁ + z₂| ≥ |z₁| + |z₂|\\)", correct: false },
+    ],
+  },
+  {
+    question: "If \\(z = 3i - 4\\), then \\(z + z̅\\) = ?",
+    answers: [
+      { text: "8", correct: false },
+      { text: "\\(-3i\\)", correct: false },
+      { text: "-8", correct: true },
+      { text: "\\(3i - 8\\)", correct: false },
+    ],
+  },
+  {
+    question: "If \\(a > 0\\) and \\(b < 0\\) then:",
+    answers: [
+      { text: "\\(ab > 0\\)", correct: false },
+      { text: "\\(ab < 0\\)", correct: true },
+      { text: "\\(ab = 0\\)", correct: false },
+      { text: "all of these", correct: false },
+    ],
+  },           
+  {
+    question: "If n is an even integer, then \\((i)ⁿ\\) is equal to:",
+    answers: [
+      { text: "\\(i\\)", correct: false },
+      { text: "\\(-i\\)", correct: false },
+      { text: "1 or -1", correct: true },
+      { text: "\\(i\\) or \\(-i\\)", correct: false },
+    ],
+  },
+  {
+    question: "If\\(z\\) is any real number \\(x\\), then its conjugate is:",
+    answers: [
+      { text: "\\(x\\)", correct: true },
+      { text: "\\(-x\\)", correct: false },
+      { text: "\\(xi\\)", correct: false },
+      { text: "\\(-xi\\)", correct: false },
+    ],
+  },
+  {
+    question: "\\((-1)^-\\frac{21}{2}\\) is equal to:",
+    answers: [
+    { text: "\\(i\\)", correct: false },
+    { text: "\\(-i\\)", correct: true },
+      { text: "1", correct: false },
+      { text: "-1", correct: false },
+    ],
+  },
+  {
+    question: "If \\(z\\) = (0,1), then \\(z²\\) is:",
+    answers: [
+      { text: "1", correct: false },
+      { text: "-1", correct: true },
+      { text: "\\(i\\)", correct: false },
+      { text: "\\(-i\\)", correct: false },
+    ],
+  },
+  {
+    question: "The product of two conjugate complex numbers is:",
+    answers: [
+      { text: "A real number", correct: true },
+      { text: "An imaginary number", correct: false },
+      { text: "Always zero", correct: false },
+      { text: "A complex number", correct: false },
+    ],
+  },
+  {
+    question: "The real part of \\(\\frac{2 + i}{i}\\) is equal to:",
+    answers: [
+      { text: "1", correct: true },
+      { text: "2", correct: false },
+      { text: "-1", correct: false },
+      { text: "\\(\\frac{1}{2}\\)", correct: false },
+    ],
+  },
+  {
+    question: "The plane on which complex numbers are shown is called:",
+    answers: [
+      { text: "Coordinate plane", correct: false },
+      { text: "Complex plane", correct: true },
+      { text: "Cartesian plane", correct: false },
+      { text: "Real plane", correct: false },
+    ],
+  },
+  {
+    question: "The modulus of a complex number \\(z= x + iy\\) is the distance of \\(P(x, y)\\) from:",
+    answers: [
+      { text: "\\(x-axis\\)", correct: false },
+      { text: "\\(y-axis\\)", correct: false },
+      { text: "\\(Origin\\)", correct: true },
+      { text: "\\((x, y)\\)", correct: false },
+    ],
+  },
+  {
+    question: "If \\(z₁ = 2 + 3i\\), \\(z₂ = 1 - i\\), then \\(|z₁z₂|\\) is:",
+    answers: [
+      { text: "\\(\\sqrt{13}\\)", correct: false },
+      { text: "\\(\\sqrt{26}\\)", correct: true },
+      { text: "\\(\\sqrt{15}\\)", correct: false },
+      { text: "26", correct: false },
+    ],
+  },
+  {
+    question: "If \\(|x + 5i| = 3\\), then \\(x\\) is equal to:",
+    answers: [
+      { text: "±4", correct: false },
+      { text: "\\(±4i\\)", correct: true },
+      { text: "\\(±22i\\)", correct: false },
+      { text: "None of these", correct: false },
+    ],
+  },
+  {
+    question: "Multiplicative inverse of (3,4) is:",
+    answers: [
+      { text: "(\\(\\frac{3}{25}\\), \\(\\frac{4}{25}\\))", correct: false },
+      { text: "(\\(\\frac{3}{25}\\), -\\(\\frac{4}{25}\\)", correct: true },
+      { text: "(-\\(\\frac{3}{25}\\), -\\(\\frac{4}{25}\\))", correct: false },    
+      { text: "(1, 0)", correct: false },
+    ],
+  },
+  {
+    question: "If \\(z= -3i + 4\\), then \\(z̅\\) is:",
+    answers: [
+      { text: "\\(-3i - 4\\)", correct: false },
+      { text: "\\(-3i + 4\\)", correct: false },
+      { text: "\\(3i + 4\\)", correct: true },
+      { text: "\\(3i - 4\\)", correct: false },
+    ],
+  },
+  {
+    question: "Real and imaginary parts of \\(i(3 - 2i)\\) are respectively:",
+    answers: [
+      { text: "2 and -3", correct: false },
+      { text: "2 and 3", correct: true },
+      { text: "3 and -2", correct: false },
+      { text: "-3 and -2", correct: false },
+    ],
+  },
+  {
+    question: "If \\(z= a + ib\\), then \\(|z|\\) is:",
+    answers: [
+    { text: "\\(\\sqrt{a - b}\\)", correct: false },
+    { text: "\\(\\sqrt{a² - b²}\\)", correct: false },
+      { text: "\\(\\sqrt{a² + b²}\\)", correct: true },
+      { text: "\\(\\sqrt{a - b}\\)", correct: false },
+    
+    ],
+  },
+  {
+    question: "(\\(\\frac{1 + i}{1 - i})^{12}\\) = ...........",
+    answers: [
+      { text: "-1", correct: false },
+      { text: "1", correct: true },
+      { text: "\\(i\\)", correct: false },
+      { text: "\\(-i\\)", correct: false },
+    ],
+  },
+  {
+    question: "The value of \\(i^{-7}\\) is:",
+    answers: [
+      { text: "1", correct: false },
+      { text: "\\(i\\)", correct: true },
+      { text: "-1", correct: false },
+      { text: "\\(-i\\)", correct: false },
+    ],
+  },
+];
+
+
+const questionElement = document.getElementById("question");
+      const answerButtons = document.getElementById("answer-buttons");
+      const nextButton = document.getElementById("next-btn");
+      const progressElement = document.getElementById("progress");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        showQuestion();
+        updateProgress();
+        MathJax.typesetPromise();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerHTML = answer.text;
+          button.classList.add("btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+
+        // Update progress and re-render MathJax
+        updateProgress();
+        MathJax.typesetPromise();
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = true;
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+
+      function updateProgress() {
+        progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${
+          questions.length
+        }`;
+      }
+
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+
+      startQuiz();
+    </script>
+  </body>
+</html>
+

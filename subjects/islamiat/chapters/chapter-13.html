@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Famous Islamic Scholars</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+    {
+        question: "Who was the greatest Faqih in the sight of Imam Abu Hanifa?",
+        answers: [
+            { text: "Imam Jafar", correct: true },
+            { text: "Imam Yusuf", correct: false },
+            { text: "Imam Muhammad", correct: false },
+            { text: "Imam Zufr", correct: false },
+        ]
+    },
+    {
+        question: "Who led the funeral prayer of Imam Jafar?",
+        answers: [
+            { text: "Imam Malik", correct: false },
+            { text: "Imam Abu Hanifa", correct: false },
+            { text: "Imam Moosa", correct: true },
+            { text: "Imam Yusuf", correct: false },
+        ]
+    },
+    {
+        question: "Imam Jafar Sadiq was born in ..... A.H.",
+        answers: [
+            { text: "73", correct: false },
+            { text: "83", correct: true },
+            { text: "93", correct: false },
+            { text: "90", correct: false },
+        ]
+    },
+    {
+        question: "Imam Jafar Sadiq was born is the city",
+        answers: [
+            { text: "Kufa", correct: false },
+            { text: "Basra", correct: false },
+            { text: "Mecca", correct: false },
+            { text: "Madina Munawarah", correct: true },
+        ]
+    },
+    {
+        question: "Imam Jafar Sadiq died in the year",
+        answers: [
+            { text: "140 AH", correct: false },
+            { text: "149 AH", correct: true },
+            { text: "159 AH", correct: false },
+            { text: "139 AH", correct: false },
+        ]
+    },
+    {
+        question: "Imam Jafar Sadiq was buried in",
+        answers: [
+            { text: "Jannat Baqee", correct: true },
+            { text: "Jannat Moala", correct: false },
+            { text: "Uhada", correct: false },
+            { text: "Kufa", correct: false },
+        ]
+    },
+    {
+        question: "Imam Jafar Sadiq was the son of Imam",
+        answers: [
+            { text: "Musa Kazim", correct: false },
+            { text: "Muhammad Baqr", correct: true },
+            { text: "Hussain (RA)", correct: false },
+            { text: "Qasim", correct: false },
+        ]
+    },
+    {
+        question: "He suggested Imam Abu Hanifa to advance his education",
+        answers: [
+            { text: "Imam Aamir", correct: true },
+            { text: "Imam Aasim", correct: false },
+            { text: "Imam Ibrahim", correct: false },
+            { text: "Imam Hammad", correct: false },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa was born in the year",
+        answers: [
+            { text: "70 AH", correct: false },
+            { text: "80 AH", correct: true },
+            { text: "90 AH", correct: false },
+            { text: "95 AH", correct: false },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa was born in the city",
+        answers: [
+            { text: "Madina", correct: false },
+            { text: "Mecca", correct: false },
+            { text: "Baghdad", correct: false },
+            { text: "Kufa", correct: true },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa's family profession was",
+        answers: [
+            { text: "Farming", correct: false },
+            { text: "Education", correct: false },
+            { text: "Trading", correct: true },
+            { text: "Labour", correct: false },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa was died in the year",
+        answers: [
+            { text: "146", correct: false },
+            { text: "150", correct: true },
+            { text: "136", correct: false },
+            { text: "140", correct: false },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa was buried in the city",
+        answers: [
+            { text: "Kufa", correct: false },
+            { text: "Baghdad", correct: true },
+            { text: "Madina", correct: false },
+            { text: "Damiscus", correct: false },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa was a",
+        answers: [
+            { text: "Sahabi", correct: false },
+            { text: "Tabai Tabai", correct: false },
+            { text: "Tabei", correct: true },
+            { text: "Wali", correct: false },
+        ]
+    },
+    {
+        question: "The book ...... is count as Imam Abu Hanifa's book",
+        answers: [
+            { text: "Al Mabsoot", correct: false },
+            { text: "Al Ziyadat", correct: false },
+            { text: "Al Jamia Alkabeer", correct: false },
+            { text: "Kitab AlAsar", correct: true },
+        ]
+    },
+    {
+        question: "Imam Abu Hanifa's full name was",
+        answers: [
+            { text: "Malik bin Anas", correct: false },
+            { text: "Noman bin Sabit", correct: true },
+            { text: "Noman bin Bashir", correct: false },
+            { text: "Muhammad", correct: false },
+        ]
+    },
+    {
+        question: "What is the full name of Imam Malik?",
+        answers: [
+            { text: "Malik ibn Anas", correct: true },
+            { text: "Malik ibn Abbas", correct: false },
+            { text: "Malik ibn Abdullah", correct: false },
+            { text: "Malik ibn Yusuf", correct: false },
+        ]
+    },
+    {
+        question: "In which city was Imam Malik born?",
+        answers: [
+            { text: "Makkah", correct: false },
+            { text: "Madinah", correct: true },
+            { text: "Cairo", correct: false },
+            { text: "Damascus", correct: false },
+        ]
+    },
+    {
+        question: "Imam Malik is best known for his compilation of a book of hadith this book is",
+        answers: [
+            { text: "Sahih al-Bukhari", correct: false },
+            { text: "Musnad Ahmad", correct: false },
+            { text: "Al-Muwatta", correct: true },
+            { text: "Sunan Abu Dawood", correct: false },
+        ]
+    },
+    {
+        question: "Imam Malik was born in the year",
+        answers: [
+            { text: "83", correct: false },
+            { text: "80", correct: false },
+            { text: "93", correct: true },
+            { text: "99", correct: false },
+        ]
+    },
+    {
+        question: "Who is called \"Imam Darul Hijra\"",
+        answers: [
+            { text: "Imam Jafar", correct: false },
+            { text: "Imam Abu Hanifa", correct: false },
+            { text: "Imam Malik", correct: true },
+            { text: "Imam Shafi", correct: false },
+        ]
+    },
+    {
+        question: "Imam Malik was died in the year",
+        answers: [
+            { text: "153", correct: false },
+            { text: "179", correct: true },
+            { text: "189", correct: false },
+            { text: "99", correct: false },
+           
+        ]
+    },
+    {
+        question: "Imam Malik was buried in",
+        answers: [
+            { text: "Jannat Baqee", correct: true },
+            { text: "Jannat Moala", correct: false },
+            { text: "Uhada", correct: false },
+            { text: "Kufa", correct: false },
+        ]
+    },
+    {
+        question: "What is Imam Shafi'i's full name?",
+        answers: [
+            { text: "Shafi'i ibn Malik", correct: false },
+            { text: "Muhammad ibn Idris", correct: true },
+            { text: "Abu Hanifa al-Shafi'i", correct: false },
+            { text: "Ahmad ibn Hanbal", correct: false },
+        ]
+    },
+    {
+        question: "Where was Imam al-Shafi'i born?",
+        answers: [
+            { text: "Makkah", correct: false },
+            { text: "Madinah", correct: false },
+            { text: "Cairo", correct: false },
+            { text: "Gaza", correct: true },
+        ]
+    },
+    {
+        question: "Imam Shafi'i was a student of which other famous Islamic scholar?",
+        answers: [
+            { text: "Imam Abu Hanifa", correct: false },
+            { text: "Imam Malik", correct: true },
+            { text: "Imam Ahmad", correct: false },
+            { text: "Imam al-Ghazali", correct: false },
+        ]
+    },
+    {
+        question: "Imam Shafi'i’s father migrated to Gaza from",
+        answers: [
+            { text: "Makkah", correct: true },
+            { text: "Madina", correct: false },
+            { text: "Cairo", correct: false },
+            { text: "Kufa", correct: false },
+        ]
+    },
+    {
+        question: "Imam Shafi'i was born in the year",
+        answers: [
+            { text: "250", correct: false },
+            { text: "150", correct: true },
+            { text: "96", correct: false },
+            { text: "136", correct: false },
+        ]
+    },
+    {
+        question: "Imam Shafi'i was died in the age of",
+        answers: [
+            { text: "60 years", correct: false },
+            { text: "70 years", correct: false },
+            { text: "50 years", correct: false },
+            { text: "54 years", correct: true },
+        ]
+    },
+    {
+        question: "Imam Shafi'i was died in",
+        answers: [
+            { text: "Baghdad", correct: false },
+            { text: "Egypt", correct: true },
+            { text: "Gaza", correct: false },
+            { text: "Madina", correct: false },
+        ]
+    },
+    {
+        question: "Where was Imam Ahmad ibn Hanbal born?",
+        answers: [
+            { text: "Makkah", correct: false },
+            { text: "Madinah", correct: false },
+            { text: "Baghdad", correct: true },
+            { text: "Kufa", correct: false },
+        ]
+    },
+    {
+        question: "What is the name of Imam Ahmad ibn Hanbal's famous compilation of hadith?",
+        answers: [
+            { text: "Sahih al-Bukhari", correct: false },
+            { text: "Musnad Ahmad", correct: true },
+            { text: "Al-Muwatta", correct: false },
+            { text: "Sunan an-Nasa'i", correct: false },
+        ]
+    },
+    {
+        question: "Imam Ahmad ibn Hanbal was a contemporary of which other renowned Islamic scholar?",
+        answers: [
+            { text: "Imam Abu Hanifa", correct: false },
+            { text: "Imam Malik", correct: false },
+            { text: "Imam al-Shafi'i", correct: true },
+            { text: "Imam al-Ghazali", correct: false },
+        ]
+    },
+    {
+        question: "Imam Ahmad was born in the year",
+        answers: [
+            { text: "164", correct: true },
+            { text: "154", correct: false },
+            { text: "144", correct: false },
+            { text: "150", correct: false },
+        ]
+    },
+    {
+        question: "Imam Ahmad was died in the age of",
+        answers: [
+            { text: "70", correct: false },
+            { text: "60", correct: false },
+            { text: "56", correct: false },
+            { text: "77", correct: true },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

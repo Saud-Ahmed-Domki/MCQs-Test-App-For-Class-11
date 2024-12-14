@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Namaz (Prayer)</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+  const questions = [
+    {
+        question: "How many times prayers are performed in a day?",
+        answers: [
+            { text: "4 times", correct: false },
+            { text: "3 times", correct: false },
+            { text: "Five times", correct: true },
+            { text: "Six times", correct: false },
+        ]
+    },
+    {
+        question: "What is second principle of Islam?",
+        answers: [
+            { text: "Namaz", correct: true },
+            { text: "Zakat", correct: false },
+            { text: "Hajj", correct: false },
+            { text: "Jehad", correct: false },
+        ]
+    },
+    {
+        question: "The word \"Namaz\" is derived from which language?",
+        answers: [
+            { text: "Arabic", correct: false },
+            { text: "Persian", correct: true },
+            { text: "Urdu", correct: false },
+            { text: "Sindhi", correct: false },
+        ]
+    },
+    {
+        question: "Namaz is a ______ worship.",
+        answers: [
+            { text: "Social", correct: false },
+            { text: "Spiritual", correct: false },
+            { text: "Both of these", correct: true },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "Which Fundamental Pillar of Islam is regarded as the most important?",
+        answers: [
+            { text: "Namaz", correct: true },
+            { text: "Roza (Fasting)", correct: false },
+            { text: "Zakat", correct: false },
+            { text: "Hajj", correct: false },
+        ]
+    },
+    {
+        question: "What is the first thing a Muslim will have to account on the Day of Judgement?",
+        answers: [
+            { text: "Namaz", correct: true },
+            { text: "Modesty", correct: false },
+            { text: "Taqwa", correct: false },
+            { text: "Bad deeds", correct: false },
+        ]
+    },
+    {
+        question: "The dictionary meaning of Namaz is",
+        answers: [
+            { text: "To incline", correct: false },
+            { text: "To seek refuge", correct: false },
+            { text: "To pray", correct: true },
+            { text: "All of them", correct: false },
+        ]
+    },
+    {
+        question: "Namaz means...",
+        answers: [
+            { text: "Invocation", correct: false },
+            { text: "Rahmat", correct: false },
+            { text: "Astaghfar", correct: false },
+            { text: "All of them", correct: true },
+        ]
+    },
+    {
+        question: "Namaz was made obligatory at",
+        answers: [
+            { text: "Madinah", correct: false },
+            { text: "Hudaibia", correct: false },
+            { text: "Hira", correct: false },
+            { text: "Mairaj", correct: true },
+        ]
+    },
+    {
+        question: "The five times of Namaz had been fixed in which period of the holy prophet?",
+        answers: [
+            { text: "Makki", correct: true },
+            { text: "Madani", correct: false },
+            { text: "In both periods", correct: false },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "How many Fardh Rakats in the five prayers observed a day?",
+        answers: [
+            { text: "10", correct: false },
+            { text: "15", correct: false },
+            { text: "17", correct: true },
+            { text: "18", correct: false },
+        ]
+    },
+    {
+        question: "Which word is denoted for Namaz in the holy Quran?",
+        answers: [
+            { text: "Saum", correct: false },
+            { text: "Namaz", correct: false },
+            { text: "Salat", correct: true },
+            { text: "Jihad", correct: false },
+        ]
+    },
+    {
+        question: "How many times obligation of Namaz is mentioned in the holy Quran?",
+        answers: [
+            { text: "400", correct: false },
+            { text: "700", correct: true },
+            { text: "500", correct: false },
+            { text: "600", correct: false },
+        ]
+    },
+    {
+        question: "To which direction, Namaz is performed?",
+        answers: [
+            { text: "Khana Ka'aba", correct: true },
+            { text: "Masjid-e-Nabvi", correct: false },
+            { text: "Masjid-e-Aqsa", correct: false },
+            { text: "Tomb of the holy prophet (PBUH)", correct: false },
+        ]
+    },
+    {
+        question: "Who said that, Namaz is the treasure of my eyes?",
+        answers: [
+            { text: "Holy prophet (PBUH)", correct: true },
+            { text: "Hazrat Ali (RA)", correct: false },
+            { text: "Hazrat Imam Hussein (RA)", correct: false },
+            { text: "Hazrat Abu Bakr (RA)", correct: false },
+        ]
+    },
+    {
+        question: "What is Tayammum?",
+        answers: [
+            { text: "Cleaning of body with water", correct: false },
+            { text: "Cleaning of body with dust", correct: true },
+            { text: "Cleaning of body with papers", correct: false },
+            { text: "Cleaning of body with gross", correct: false },
+        ]
+    },
+    {
+        question: "After Which prayer Witr (وتر) Namaz is offered?",
+        answers: [
+            { text: "Fajr", correct: false },
+            { text: "Zuhr", correct: false },
+            { text: "Asr", correct: false },
+            { text: "Isha", correct: true },
+        ]
+    },
+    {
+        question: "Name is the person who leads Namaz?",
+        answers: [
+            { text: "Mudarak", correct: false },
+            { text: "Imam", correct: true },
+            { text: "Musbaq", correct: false },
+            { text: "Iqamah", correct: false },
+        ]
+    },
+    {
+        question: `Namaz-e-"Khsoof خسوف" is offered for`,
+        answers: [
+            { text: "Femine", correct: false },
+            { text: "Drought", correct: false },
+            { text: "Moon eclipse", correct: true },
+            { text: "Sun eclipse", correct: false },
+        ]
+    },
+    {
+        question: `Namaz-e-"Kasoof كسوف" is offered at the occasion of.....`,
+        answers: [
+            { text: "Strom", correct: false },
+            { text: "Sun eclipse", correct: true },
+            { text: "Moon eclipse", correct: false },
+            { text: "Drought", correct: false },
+        ]
+    },
+    {
+        question: "Which Prayer(s) is (are) not preceded by A'azan.",
+        answers: [
+            { text: "Eid-ul-Fitr", correct: false },
+            { text: "Eid-ul-uzha", correct: false },
+            { text: "Both of these", correct: true },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "Eid-Namaz is...",
+        answers: [
+            { text: "Farz", correct: false },
+            { text: "Sunnah", correct: false },
+            { text: "Wajib", correct: true },
+            { text: "Nafil", correct: false },
+        ]
+    },
+    {
+        question: "What is the literal meaning of Tahjud?",
+        answers: [
+            { text: "Sunset", correct: false },
+            { text: "Dawn", correct: false },
+            { text: "Dusk", correct: false },
+            { text: "Wake up", correct: true },
+        ]
+    },
+    {
+        question: "The method of Azan was introduced in Period.",
+        answers: [
+            { text: "Makki", correct: false },
+            { text: "Madani", correct: true },
+            { text: "Both of these", correct: false },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "In which condition, Namaz is not obligatory for an adult Muslim?",
+        answers: [
+            { text: "in travelling", correct: false },
+            { text: "in mental disorder", correct: true },
+            { text: "in illness", correct: false },
+            { text: "in Fasting", correct: false },
+        ]
+    },
+    {
+        question: "Namaz-e ...... is Farz-e-Kifaya",
+        answers: [
+            { text: "Janaza", correct: true },
+            { text: "Eid", correct: false },
+            { text: "Tarveeh", correct: false },
+            { text: "Tahajud", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

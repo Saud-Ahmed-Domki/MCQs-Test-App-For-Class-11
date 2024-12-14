@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 7: Chemical Equilibrium</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+const questions = [
+    {
+        question: "In the equilibrium system of PCl5(g) ⇌ PCl3(g) + Cl2(g), the correct relationship between Kc and Kp is:",
+        answers: [
+            { text: "Kp > Kc", correct: true },
+            { text: "Kp < Kc", correct: false },
+            { text: "Kp = Kc", correct: false },
+            { text: "Kp/Kc = 1", correct: false },
+        ]
+    },
+    {
+        question: "The equilibrium of which of the following reaction would not be affected by an increase in pressure:",
+        answers: [
+            { text: "PCl5(g) ⇌ PCl3(g) + Cl2(g)", correct: false },
+            { text: "2NO(g) + Cl2(g) ⇌ 2NOCl(g)", correct: false },
+            { text: "N2(g) + O2(g) ⇌ 2NO(g)", correct: true },
+            { text: "2SO2(g) + O2(g) ⇌ 2SO3(g)", correct: false },
+        ]
+    },
+    {
+        question: "What happens to the value of Kc when a catalyst is added to a chemical system at equilibrium?",
+        answers: [
+            { text: "It decreases", correct: false },
+            { text: "It increases", correct: false },
+            { text: "It becomes zero", correct: false },
+            { text: "It remains unchanged", correct: true },
+        ]
+    },
+    {
+        question: "The correct Ksp expression of a sparingly soluble salt Li2C2O4 among the following is:",
+        answers: [
+            { text: "Ksp = [Li+][C2O4^-2]", correct: false },
+            { text: "Ksp = [Li+]^2[C2O4^-2]", correct: true },
+            { text: "Ksp = [2Li+]^2[C2O4^-2]", correct: false },
+            { text: "Ksp = [Li+]^2[C2O4^-2]^2", correct: false },
+        ]
+    },
+    {
+        question: "If the equilibrium expression of a reversible reaction is Kc = [C]^2/[A][B], the balanced equilibrium equation should be:",
+        answers: [
+            { text: "C ⇌ A + B", correct: false },
+            { text: "A + B ⇌ C", correct: false },
+            { text: "2C ⇌ A + B", correct: false },
+            { text: "A + B ⇌ 2C", correct: true },    
+        ]
+    },
+    {
+        question: "The equilibrium of N2(g) + O2(g) ⇌ 2NO(g) (ΔH = +ve) is affected by change in:",
+        answers: [
+            { text: "Temperature only", correct: true },
+            { text: "Pressure only", correct: false },
+            { text: "Both temperature and pressure", correct: false },
+            { text: "Neither temperature nor pressure", correct: false },
+        ]
+    },
+    {
+        question: "In the reaction A(g) + B(g) ⇌ 2C(g), the equilibrium constants Kp = Kc because:",
+        answers: [
+            { text: "Δn > 1", correct: false },
+            { text: "Δn < 1", correct: false },
+            { text: "Δn = 1", correct: false },
+            { text: "Δn = 0", correct: true },
+        ]
+    },
+    {
+        question: "The term active mass used in law of mass action means:",
+        answers: [
+            { text: "No. of mole", correct: false },
+            { text: "No. of molecules", correct: false },
+            { text: "mole per dm^3", correct: true },
+            { text: "gram per dm^3", correct: false },
+        ]
+    },
+    {
+        question: "NaCl when added to an aqueous silver chloride solution:",
+        answers: [
+            { text: "Decreases the solubility of AgCl", correct: true },
+            { text: "Increases the solubility of AgCl", correct: false },
+            { text: "Forms a clear solution", correct: false },
+            { text: "Does not effect", correct: false },
+        ]
+    },
+    {
+        question: "Some reactions are nearly to completion in the forward direction and identified by their:",
+        answers: [
+            { text: "Very high value of Kc", correct: true },
+            { text: "Very low value of Kc", correct: false },
+            { text: "Very high value of ΔH", correct: false },
+            { text: "Very low value of ΔH", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

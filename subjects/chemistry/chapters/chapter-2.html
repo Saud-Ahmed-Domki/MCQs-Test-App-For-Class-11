@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 2: Atomic Structure</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+ const questions = [
+  {
+    question: "Bohr's theory is not applicable to which of the following species?",
+    answers: [
+      { text: "H", correct: false },
+      { text: "H⁺", correct: true },
+      { text: "He⁺¹", correct: false },
+      { text: "Li⁺²", correct: false },
+    ],
+  },
+  {
+    question: "Nitrogen has the electronic configuration 1s²2s²2pₓ¹2p_y¹2p_z¹ and not 1s²2s²2pₓ²2p_y¹. This is determined by:",
+    answers: [
+      { text: "Aufbau principle", correct: false },
+      { text: "Pauli’s rule", correct: false },
+      { text: "Hund’s rule", correct: true },
+      { text: "n + ℓ rule", correct: false },
+    ],
+  },
+  {
+    question: "Quantum number values for 3s orbital are:",
+    answers: [
+      { text: "n = 0, ℓ = 1", correct: false },
+      { text: "n = 1, ℓ = 0", correct: false },
+      { text: "n = 3, ℓ = 1", correct: false },
+      { text: "n = 3, ℓ = 0", correct: true },
+    ],
+  },
+  {
+    question: "The radius of the first orbit of hydrogen atom is:",
+    answers: [
+      { text: "529 Å", correct: false },
+      { text: "52.9 Å", correct: false },
+      { text: "5.29 Å", correct: false },
+      { text: "0.529 Å", correct: true },
+    ],
+  },
+  {
+    question: "Line spectrum is used as a tool for the identification of:",
+    answers: [
+      { text: "Colors", correct: false },
+      { text: "Electrons", correct: false },
+      { text: "Elements", correct: true },
+      { text: "Molecules", correct: false },
+    ],
+  },
+  {
+    question: "In 1935 A.D., James Chadwick was awarded the Nobel Prize because:",
+    answers: [
+      { text: "He discovered proton", correct: false },
+      { text: "He discovered neutron", correct: true },
+      { text: "He determined the radius of hydrogen atom", correct: false },
+      { text: "He gave the rules for electronic configuration", correct: false },
+    ],
+  },
+  {
+    question: "When 4d orbital is filled, the next electron enter into:",
+    answers: [
+      { text: "5s", correct: false },
+      { text: "5p", correct: true },
+      { text: "5d", correct: false },
+      { text: "6s", correct: false },
+    ],
+  },
+  {
+    question: "Which of the following is not an isoelectronic pair?",
+    answers: [
+      { text: "Na⁺ and Ne", correct: false },
+      { text: "Na⁺ and F⁻", correct: false },
+      { text: "Na and Ca", correct: true },
+      { text: "Na⁺ and Mg⁺²", correct: false },
+    ],
+  }, 
+  {
+    question: "Balmer series appears in the hydrogen spectrum if electron jumps from any appropriate higher energy orbit to:",
+    answers: [
+      { text: "Second orbit", correct: true },
+      { text: "Third orbit", correct: false },
+      { text: "Fourth orbit", correct: false },
+      { text: "Fifth orbit", correct: false },
+    ],
+  },
+  {
+    question: "The shape of orbital for which ℓ = 0 is:",
+    answers: [
+      { text: "Spherical", correct: true },
+      { text: "Dumbbell", correct: false },
+      { text: "Double dumbbell", correct: false },
+      { text: "Complicated", correct: false },
+    ],
+  },
+];
+
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

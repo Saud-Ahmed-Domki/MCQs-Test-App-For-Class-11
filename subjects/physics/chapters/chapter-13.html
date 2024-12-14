@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 13: Physical Optics</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+const questions = [
+    {
+        question: "If the wavelength of an electromagnetic wave is about the diameter of a cricket ball, what type of radiation is it?",
+        answers: [
+            { text: "X-ray", correct: false },
+            { text: "Ultraviolet", correct: false },
+            { text: "Radio waves", correct: true },
+            { text: "Visible light", correct: false },
+        ]
+    },
+    {
+        question: "Electromagnetic waves from an unknown source in space are found to be diffracted when passing through gaps of the order of 10^-5 m. Which type of the wave are they most likely to be?",
+        answers: [
+            { text: "microwaves", correct: false },
+            { text: "Ultraviolet", correct: false },
+            { text: "Radio waves", correct: false },
+            { text: "infra-red waves", correct: true },
+        ]
+    },
+    {
+        question: "Huygens's conception of secondary waves",
+        answers: [
+            { text: "helps us to find the focal length of a thick lens", correct: false },
+            { text: "is a geometrical method to find a wavefront", correct: true },
+            { text: "is used to determine the velocity of light", correct: false },
+            { text: "is used to explain the polarization of light", correct: false },
+        ]
+    },
+    {
+        question: "Interference fringes are produced using monochromatic light of same intensity from a double slit screen. If the intensity of light emerging from one of the slit is reduced, the effect on interference pattern will be",
+        answers: [
+            { text: "All the dark and bright fringes become brighter.", correct: false },
+            { text: "All the dark and bright fringes become darker.", correct: false },
+            { text: "Bright fringes become brighter and dark fringes become darker.", correct: false },
+            { text: "Bright fringes become darker and dark fringes become brighter.", correct: true },
+        ]
+    },
+    {
+        question: "In Young's experiment when the distance between slits and screen is doubled, while separation of slits is halved, then fringe width will be:",
+        answers: [
+            { text: "4 times", correct: true },
+            { text: "¼ times", correct: false },
+            { text: "doubled", correct: false },
+            { text: "unchanged", correct: false },
+        ]
+    },
+    {
+        question: `A ray of light passes from air into water. Striking the surface of the water with an angle of incidence 45°. Which of these quantities change as the light enters the water?
+        i)Wavelength ii)frequency iii)speed of propagation iv)direction of propagation
+        `,
+        answers: [
+            { text: "i and ii only.", correct: false },
+            { text: "iii and iv only.", correct: false },
+            { text: "i, iii, and iv only.", correct: true },
+            { text: "all of them.", correct: false },
+        ]
+    },
+    {
+        question: "A hill separates a television (TV) transmitter from a house. The Transmitter cannot be seen from the house but still the TV in the house has good reception. What wave phenomena make it possible?",
+        answers: [
+            { text: "Coherence of waves", correct: false },
+            { text: "Diffraction of waves.", correct: true },
+            { text: "Interference of waves", correct: false },
+            { text: "Refraction of waves.", correct: false },
+        ]
+    },
+    {
+        question: "Monochromatic light is incident on a diffraction grating and a diffraction pattern is observed. Which effects is observed by replacing the grating with one that has more lines per millimeter?",
+        answers: [
+            { text: "Number of maxima decreases with decrease in angle between first and second order maxima.", correct: false },
+            { text: "Number of maxima decreases with increase in angle between first and second order maxima.", correct: true },
+            { text: "Number of maxima increases with decrease in angle between first and second order maxima.", correct: false },
+            { text: "Number of maxima increases with increase in angle between first and second order maxima.", correct: false },
+        ]
+    },
+    {
+        question: "Optically active substances are those substances which",
+        answers: [
+            { text: "produce polarized light", correct: false },
+            { text: "rotate the plane of polarization of polarized light", correct: true },
+            { text: "produce double refraction", correct: false },
+            { text: "convert a plane polarized light into circularly polarized light", correct: false },
+        ]
+    },
+    {
+        question: "Plane polarized light is passed through a Polaroid. On viewing through the Polaroid we find that when Polaroid is given one complete rotation about the direction of light",
+        answers: [
+            { text: "The intensity of light gradually decreases to zero and remains at zero.", correct: false },
+            { text: "The intensity of light gradually increases to maximum and remains at maximum.", correct: false },
+            { text: "There is no change in the intensity of light.", correct: false },
+            { text: "The intensity of light varies such that it is twice maximum and twice zero.", correct: true },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

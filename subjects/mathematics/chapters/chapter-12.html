@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Unit 12: Graphs of Trigonometric & Inverse Trigonometric Functions & Solution of Trigonometric Equations</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+  const questions = [
+    {
+        question: "If \\(y\\) = \\(sinx\\), then domain is:",
+        answers: [
+            { text: "\\(-\\frac{\\pi}{2} ≤ x ≤ \\frac{\\pi}{2}\\)", correct: true },
+            { text: "\\(0 ≤ x ≤ π\\)", correct: false },
+            { text: "[0, x], x ≠ \\(\\frac{\\pi}{2}\\)", correct: false },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "If \\(y\\) = \\(cosx\\), then range is:",
+        answers: [
+            { text: "\\(-1 ≤ y ≤ 1\\)", correct: true },
+            { text: "R", correct: false },
+            { text: "\\(y ≤ -1\\) or \\(y ≥ 1\\)", correct: false },
+            { text: "\\(y ≤ -1\\) or \\(y ≥ 1\\)", correct: false },
+        ]
+    },
+    {
+        question: "If \\(y\\) = \\(Tan⁻¹x\\), then domain is:",
+        answers: [
+            { text: "\\(-1 ≤ x ≤ 1\\)", correct: false },
+            { text: "R", correct: true },
+            { text: "\\(x ≤ -1\\) or \\(x ≥ 1\\)", correct: false },
+            { text: "\\(x ≤ -1\\) or \\(x ≥ 1\\)", correct: false },
+        ]
+    },
+    {
+        question: "If \\(y\\) = \\(Sec⁻¹x\\), then range is:",
+        answers: [
+            { text: "\\(0 ≤ y ≤ π\\), \\(y\\) ≠ \\(\\frac{\\pi}{2}\\)", correct: true },
+            { text: "-\\(\\frac{\\pi}{2}\\) ≤ \\(y\\) ≤ \\(\\frac{\\pi}{2}\\), \\(y\\) ≠ 0", correct: false },
+            { text: "\\(0 < y < π\\)", correct: false },
+            { text: "-\\(\\frac{\\pi}{2}\\) < \\(y\\) < \\(\\frac{\\pi}{2}\\)", correct: false },
+        ]
+    },
+    {
+        question: "Inverse function exists if and only if the function is:",
+        answers: [
+            { text: "bijective", correct: true },
+            { text: "(1-1) function", correct: false },
+            { text: "onto function", correct: false },
+            { text: "into function", correct: false },
+        ]
+    },
+    {
+        question: "\\(Cot⁻¹x\\) = ",
+        answers: [
+            { text: "\\(\\frac{\\pi}{2} - tan⁻¹x\\)", correct: true },
+            { text: "\\(\\frac{\\pi}{2} - cot⁻¹x\\)", correct: false },
+            { text: "\\(\\frac{\\pi}{2} + tan⁻¹x\\)", correct: false },
+            { text: "\\(\\frac{\\pi}{2} + cot⁻¹x\\)", correct: false },
+        ]
+    },
+    {
+        question: "\\(Sec[sin⁻¹(-\\frac{1}{2})]\\) = ..............",
+        answers: [
+        { text: "\\(\\frac{2}{\\sqrt{3}}\\)", correct: true },
+            { text: "\\(\\frac{\\sqrt{3}}{2}\\)", correct: false },
+            { text: "\\(\\frac{1}{2}\\)", correct: false },
+            { text: "\\(-\\frac{2}{\\sqrt{3}}\\)", correct: false },
+        ]
+    },
+    {
+        question: "\\(cos(Sin⁻¹\\) \\(\\frac{1}{\\sqrt{2}}\\)) = ............",
+        answers: [
+        { text: "\\(\\frac{2}{\\sqrt{3}}\\)", correct: false },
+            { text: "\\(\\frac{\\sqrt{3}}{2}\\)", correct: false },
+            { text: "\\(\\frac{1}{2}\\)", correct: false },
+            { text: "\\(\\frac{1}{\\sqrt{2}}\\)", correct: true },
+        ]
+    },
+    {
+        question: "\\(cos⁻¹ A\\) + \\(cos⁻¹ B\\) = ",
+        answers: [
+            { text: "\\(cos⁻¹(AB - \\sqrt{(1-A²)(1-B²)})\\)", correct: true },
+            { text: "\\(cos⁻¹(AB + \\sqrt{(1-A²)(1-B²)})\\)", correct: false },
+            { text: "\\(cos⁻¹(AB + \\sqrt{(1+A²)(1+B²)})\\)", correct: false },
+            { text: "\\(cos⁻¹(AB - \\sqrt{(1+A²)(1+B²)})\\)", correct: false },
+        ]
+    },
+    {
+        question: "\\(tan⁻¹(-x)\\) = ..........",
+        answers: [
+            { text: "\\(-tan⁻¹x\\)", correct: true },
+            { text: "\\(π - tan⁻¹x\\)", correct: false },
+            { text: "\\(cot⁻¹x\\)", correct: false },
+            { text: "\\(tan⁻¹x\\)", correct: false },
+        ]
+    },
+    {
+        question: "\\(Tan⁻¹(-1)\\) = .............",
+        answers: [
+            { text: "\\(\\frac{\\pi}{4}\\)", correct: false },
+            { text: "\\(-\\frac{\\pi}{4}\\)", correct: true },
+            { text: "\\(\\frac{\\pi}{2}\\)", correct: false },
+            { text: "\\(-\\frac{\\pi}{2}\\)", correct: false },
+        ]
+    },
+    {
+        question: "If \\(tan\\) \\(2x\\) = -1, then solution in the interval [-\\(\\frac{\\pi}{2}\\),\\(\\frac{\\pi}{2}\\)] is:",
+        answers: [
+            { text: "\\(-\\frac{\\pi}{8}\\)", correct: true },
+            { text: "\\(-\\frac{\\pi}{4}\\)", correct: false },
+            { text: "\\(\\frac{3\\pi}{8}\\)", correct: false },
+            { text: "\\(\\frac{3\\pi}{4}\\)", correct: false },
+        ]
+    },
+    {
+        question: "General solution of 4\\(sin\\) \\(x - 8\\) = 0 is:",
+        answers: [
+            { text: "\\(\\{π + 2nπ\\}, n ∈ Z\\)", correct: false },
+            { text: "\\(\\{π + nπ\\}, n ∈ Z\\)", correct: false },
+            { text: "\\(\\{-π + nπ\\}, n ∈ Z\\)", correct: false },
+            { text: "Not possible", correct: true },
+        ]
+    },
+    {
+        question: "Solution of equation: 2\\(Sin\\)\\(x + \\sqrt{3}\\) = 0 in \\(4^{th}\\) Quadrant is:",
+        answers: [
+            { text: "\\(\\frac{\\pi}{3}\\)", correct: false },
+            { text: "\\(-\\frac{\\pi}{3}\\)", correct: true },
+            { text: "\\(-\\frac{\\pi}{6}\\)", correct: false },
+            { text: "\\(\\frac{11\\pi}{6}\\)", correct: false },
+        ]
+    },
+    {
+        question: "All trigonometric function are ............. function:",
+        answers: [
+            { text: "periodic", correct: true },
+            { text: "even", correct: false },
+            { text: "injective", correct: false },
+            { text: "bijective", correct: false },
+        ]
+    },
+    {
+        question: "General solution of every trigonometric equation consists of:",
+        answers: [
+            { text: "one solution only", correct: false },
+            { text: "two solution", correct: false },
+            { text: "infinitely many solutions", correct: true },
+            { text: "no real solution", correct: false },
+        ]
+    },
+    {
+        question: "The period of \\(cosθ\\) is:",
+        answers: [
+            { text: "\\(\\frac{\\pi}{2}\\)", correct: false },
+            { text: "\\(π\\)", correct: false },
+            { text: "\\(2π\\)", correct: true },
+            { text: "\\(4π\\)", correct: false },
+        ]
+    },
+    {
+        question: "One solution of \\(Secx\\) = -2 is:",
+        answers: [
+            { text: "\\(\\frac{2\\pi}{3}\\)", correct: true },
+            { text: "\\(\\frac{\\pi}{3}\\)", correct: false },
+            { text: "\\(\\frac{4\\pi}{3}\\)", correct: false },
+            { text: "\\(-\\frac{\\pi}{3}\\)", correct: false },
+        ]
+    },
+    {
+        question: "If \\(cosθ\\) = -\\(\\frac{1}{2}\\) and \\(sinθ\\) = -\\(\\frac{\\sqrt{3}}{2}\\), then \\(θ\\) is:",
+        answers: [
+            { text: "\\(\\frac{\\pi}{3}\\)", correct: false },
+            { text: "\\(\\frac{2\\pi}{3}\\)", correct: false },
+            { text: "\\(\\frac{4\\pi}{3}\\)", correct: true },
+            { text: "\\(\\frac{5\\pi}{3}\\)", correct: false },
+        ]
+    },
+    {
+        question: "The period of \\(sin\\frac{x}{2}\\) is:",
+        answers: [
+        { text: "\\(4π\\)", correct: true },
+        { text: "\\(π\\)", correct: false },
+        { text: "\\(2π\\)", correct: false },
+            { text: "\\(3π\\)", correct: false },
+          
+        ]
+    },
+    {
+        question: "The value of \\(cos\\) \\(5π\\) is:",
+        answers: [
+            { text: "0", correct: false },
+            { text: "1", correct: false },
+            { text: "-1", correct: true },
+            { text: "None of these", correct: false },
+        ]
+    },
+    {
+        question: "The period of 3\\(sec\\frac{x}{3}\\) is:",
+        answers: [
+            { text: "\\(5π\\)", correct: false },
+            { text: "\\(π\\)", correct: false },
+            { text: "\\(2π\\)", correct: false },
+            { text: "\\(6π\\)", correct: true },
+        ]
+    },
+    {
+        question: "The period of 7\\(tan(7x)\\) is:",
+        answers: [
+        { text: "\\(\\frac{7\\pi}{3}\\)", correct: false },
+        { text: "\\(7π\\)", correct: false },
+            { text: "\\(\\frac{\\pi}{7}\\)", correct: true },
+            { text: "\\(π\\)", correct: false },
+           
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+    MathJax.typesetPromise();
+  }
+
+  function showQuestion() {
+  resetState();
+  let currentQuestion = questions[currentQuestionIndex];
+  let questionNo = currentQuestionIndex + 1;
+  questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+  currentQuestion.answers.forEach((answer) => {
+    const button = document.createElement("button");
+    button.innerHTML = answer.text;
+    button.classList.add("btn");
+    answerButtons.appendChild(button);
+    if (answer.correct) {
+      button.dataset.correct = answer.correct;
+    }
+    button.addEventListener("click", selectAnswer);
+  });
+
+  // Update progress and re-render MathJax
+  updateProgress();
+  MathJax.typesetPromise();
+}
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

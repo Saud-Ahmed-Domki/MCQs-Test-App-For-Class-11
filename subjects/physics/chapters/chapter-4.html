@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 4: Rotational and Circular Motion</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+const questions = [
+
+    {
+        question: "One radian is about",
+        answers: [
+            { text: "25°", correct: false },
+            { text: "45°", correct: false },
+            { text: "37°", correct: false },
+            { text: "57°", correct: true },
+        ]
+    },
+    {
+        question: "Wheel turns with constant angular speed then:",
+        answers: [
+            { text: "each point on its rim moves with constant velocity", correct: false },
+            { text: "each point on its rim moves with constant acceleration", correct: false },
+            { text: "the wheel turns through equal angles in equal times", correct: true },
+            { text: "the angle through which the wheel turns in each second increases as time goes on", correct: false },
+            { text: "the angle through which the wheel turns in each second decreases as time goes on", correct: false },
+        ]
+    },
+    {
+        question: "The rotational inertia of a wheel about its axle does not depend upon its",
+        answers: [
+            { text: "diameter", correct: false },
+            { text: "mass", correct: false },
+            { text: "distribution of mass", correct: false },
+            { text: "speed of rotation", correct: true },
+        ]
+    },
+    {
+        question: "A force with a given magnitude is to be applied to a wheel. The torque can be maximized by",
+        answers: [
+            { text: "applying the force near the axle, radially outward from the axle", correct: false },
+            { text: "applying the force near the rim, radially outward", correct: false },
+            { text: "applying the force near the axle, parallel to a tangent to the wheel", correct: false },
+            { text: "applying the force at the rim, tangent to the rim", correct: true },
+        ]
+    },
+    {
+        question: "An object rotating about a fixed axis, I is its rotational inertia and α is its angular acceleration, it",
+        answers: [
+            { text: "is the definition of torque", correct: false },
+            { text: "is the definition of rotational inertia", correct: false },
+            { text: "is definition of angular acceleration", correct: false },
+            { text: "follows directly from Newton's second law", correct: true },
+        ]
+    },
+    {
+        question: "The angular momentum vector of Earth about its rotation axis, due to its daily rotation is, directed",
+        answers: [
+            { text: "tangent to the equator towards east", correct: false },
+            { text: "tangent to the equator towards the west", correct: false },
+            { text: "north", correct: true },
+            { text: "towards the Sun", correct: false },
+        ]
+    },
+    {
+        question: "A stone of 2 kg is tied to a 0.50 m long string and swung around a circle at angular velocity of 12 rad/s. The net torque on the stone about the center of the circle is",
+        answers: [
+            { text: "0 N.m", correct: true },
+            { text: "6 N.m", correct: false },
+            { text: "12 N.m", correct: false },
+            { text: "72 N.m", correct: false },
+        ]
+    },
+    {
+        question: "A man, with his arms at his sides, is spinning on a light frictionless turntable. When he extends his arms",
+        answers: [
+            { text: "his angular velocity increases", correct: false },
+            { text: "his angular velocity remains same", correct: false },
+            { text: "his rotational inertia decreases", correct: false },
+            { text: "his angular momentum remains the same", correct: true },
+        ]
+    },
+    {
+        question: "A space station revolves around the earth as a satellite, 100 km above the Earth's surface. What is the net force on an astronaut at rest inside the space station?",
+        answers: [
+            { text: "equal to her weight on earth", correct: false },
+            { text: "a little less than her weight on earth", correct: false },
+            { text: "less than half her weight on earth", correct: false },
+            { text: "zero (she is weightless)", correct: true },
+        ]
+    },
+    {
+        question: "If the external torque acting on a body is zero, then its",
+        answers: [
+            { text: "angular momentum is zero", correct: false },
+            { text: "angular momentum is conserved", correct: true },
+            { text: "angular acceleration is maximum", correct: false },
+            { text: "rotational motion is maximum", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>

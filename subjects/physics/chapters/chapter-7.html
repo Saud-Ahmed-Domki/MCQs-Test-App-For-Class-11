@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQs Test App - Class 11</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body{
+      background: #001e4d;
+    }
+
+    .app{
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 100px auto 0;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .app h1{
+      font-size: 25px;
+      color: #001e4d;
+      font-weight: 600;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    .quiz{
+      padding: 20px 0;
+    }
+
+    .quiz h2{
+      font-size: 18px;
+      color: #001e4d;
+      font-weight: 600;
+    }
+
+    .btn{
+      background: #fff;
+      color: #222;
+      font-weight: 500;
+      width: 100%;
+      border: 1px solid #222;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: left;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover:not([disabled]){
+      background: #222;
+      color: #fff;
+    }
+
+    .btn:disabled{
+      cursor: no-drop;
+    }
+
+    #next-btn{
+      background: #001e4d;
+      color: #fff;
+      font-weight: 500;
+      width: 150px;
+      border: 0;
+      padding: 10px;
+      margin: 20px auto 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct{
+      background: #9aeabc;
+    }
+
+    .incorrect{
+      background: #ff9393;
+    }
+
+    #progress {
+      margin-top: 20px;
+      text-align: center;
+      color: #001e4d;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chapter 7: Fluid Dynamics</h1>
+    <div class="quiz">
+      <h2 id="question">Question 1: What is the capital of India?</h2>
+      <div id="answer-buttons">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="progress">Question 1 of 4</div>
+  </div>
+
+  <script>
+const questions = [
+    {
+        question: "For an incompressible fluid, the flow rate is",
+        answers: [
+            { text: "equal for all surfaces", correct: false },
+            { text: "constant throughout the pipe", correct: true },
+            { text: "greater for the larger parts of the pipe", correct: false },
+            { text: "none of the above", correct: false },
+        ]
+    },
+    {
+        question: "Bernoulli's principle states that for horizontal flow of a fluid through a tube, the sum of the pressure and energy of motion per unit volume is",
+        answers: [
+            { text: "increasing with time", correct: false },
+            { text: "decreasing with time", correct: false },
+            { text: "constant", correct: true },
+            { text: "varying with time", correct: false },
+        ]
+    },
+    {
+        question: "Which of the following is associated with the law of conservation of energy in fluids?",
+        answers: [
+            { text: "Archimedes' principle", correct: false },
+            { text: "Bernoulli's principle", correct: true },
+            { text: "Pascal's principle", correct: false },
+            { text: "equation of continuity", correct: false },
+        ]
+    },
+    {
+        question: "As the speed of a moving fluid increases, the pressure in the fluid",
+        answers: [
+            { text: "increases", correct: false },
+            { text: "remains constant", correct: false },
+            { text: "decreases", correct: true },
+            { text: "may increase or decrease, depending on the viscosity", correct: false },
+        ]
+    },
+    {
+        question: "If the cross-sectional area of a pipe decreases, what happens to the fluid velocity?",
+        answers: [
+            { text: "Increases", correct: true },
+            { text: "Decreases", correct: false },
+            { text: "Remains the same", correct: false },
+            { text: "Depends on the fluid density", correct: false },
+        ]
+    },
+    {
+        question: "A sky diver falls through the air at terminal velocity. The force of air resistance on him is",
+        answers: [
+            { text: "half his weight", correct: false },
+            { text: "equal to his weight", correct: true },
+            { text: "twice his weight", correct: false },
+            { text: "Cannot be determined from the information given", correct: false },
+        ]
+    },
+    {
+        question: "Wind speeding up as it blows over the top of a hill",
+        answers: [
+            { text: "Increases atmospheric pressure there.", correct: false },
+            { text: "decreases atmospheric pressure there.", correct: true },
+            { text: "doesn't affect atmospheric pressure there.", correct: false },
+            { text: "equal's atmospheric pressure.", correct: false },
+        ]
+    },
+    {
+        question: `A fluid is undergoing "incompressible" flow. This means that:`,
+        answers: [
+            { text: "the pressure at a given point cannot change with time", correct: false },
+            { text: "the velocity at a given point cannot change with time", correct: false },
+            { text: "the velocity must be the same everywhere", correct: false },
+            { text: "the pressure must be the same everywhere", correct: false },
+            { text: "the density cannot change with time or location", correct: true },
+        ]
+    },
+    {
+        question: "A fluid is undergoing steady flow. Therefore:",
+        answers: [
+            { text: "the velocity of any given molecule of fluid does not change", correct: false },
+            { text: "the pressure does not vary from point to point", correct: false },
+            { text: "the velocity at any given point does not vary with time", correct: true },
+            { text: "the density does not vary from point to point", correct: false },
+        ]
+    },
+    {
+        question: "The equation of continuity for fluid flow can be derived from the conservation of:",
+        answers: [
+            { text: "energy", correct: false },
+            { text: "mass", correct: true },
+            { text: "volume", correct: false },
+            { text: "pressure", correct: false },
+        ]
+    },
+];
+
+  const questionElement = document.getElementById("question");
+  const answerButtons = document.getElementById("answer-buttons");
+  const nextButton = document.getElementById("next-btn");
+  const progressElement = document.getElementById("progress");
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+    updateProgress();
+  }
+
+  function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("button");
+      button.innerHTML = answer.text;
+      button.classList.add("btn");
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct
+      }
+      button.addEventListener("click", selectAnswer)
+    });
+    updateProgress();
+  }
+
+  function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild);
+    }
+  }
+
+  function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+      selectedBtn.classList.add("correct");
+      score++;
+    } else {
+      selectedBtn.classList.add("incorrect")
+    }
+    Array.from(answerButtons.children).forEach(button =>{
+      if (button.dataset.correct  === "true") {
+        button.classList.add("correct")
+      }
+      button.disabled = true;
+    })
+    nextButton.style.display = "block";
+  }
+
+  function showScore(){
+    resetState()
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`
+    nextButton.innerHTML = "Play Again"
+    nextButton.style.display = "block"
+  }
+
+  function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showScore()
+    }
+  }
+
+  function updateProgress() {
+    progressElement.innerHTML = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+      handleNextButton()
+    } else {
+      startQuiz()
+    }
+  });
+
+  startQuiz();
+
+  </script>
+</body>
+</html>
